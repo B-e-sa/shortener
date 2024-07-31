@@ -1,0 +1,9 @@
+@url = http://localhost:5229
+
+POST {{url}}
+content-type: application/json
+
+{
+    "url": "http://jogando98.com",
+    "title": "As folhas que caem"
+}
