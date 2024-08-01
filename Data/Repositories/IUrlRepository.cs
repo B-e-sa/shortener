@@ -6,6 +6,7 @@ namespace Shortener.Data.Repositories
     {
         Task<Url> Create(Url url);
         Task<Url> Get();
+        Task<Url?> Find(string url);
     }
 }
 

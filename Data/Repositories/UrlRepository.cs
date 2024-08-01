@@ -14,6 +14,13 @@ namespace Shortener.Data.Repositories
             return url;
         }
 
+        public async Task<Url?> Find(string url)
+        {
+            return await _dbContext.Urls
+                .Where(u => u.ShortUrl == url)
+                .FirstOrDefaultAsync();
+        }
+
         public Task<Url> Get()
         {
             throw new NotImplementedException();
