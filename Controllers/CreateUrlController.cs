@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shortener.Controllers.ResponseHandlers;
 using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
 using Shortener.Models;
-using Shortener.Services;
+using Shortener.Services.Models;
 
 namespace Shortener.Controllers
 {

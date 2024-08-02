@@ -1,7 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using Shortener.Data.Repositories;
 using Shortener.Models;
-using Shortener.Services;
+using Shortener.Services.Models;
 
 class CreateUrlService(IUrlRepository urlRepository) : ICreateUrlService
 {

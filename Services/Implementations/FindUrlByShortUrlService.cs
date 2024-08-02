@@ -1,7 +1,8 @@
 using Shortener.Data.Repositories;
 using Shortener.Models;
+using Shortener.Services.Models;
 
-namespace Shortener.Services
+namespace Shortener.Services.Implementations
 {
     public class FindByShortUrlService(IUrlRepository urlRepository) : IFindByShortUrlService
     {

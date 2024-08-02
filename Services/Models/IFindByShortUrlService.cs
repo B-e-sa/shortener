@@ -1,6 +1,6 @@
 using Shortener.Models;
 
-namespace Shortener.Services
+namespace Shortener.Services.Models
 {
     public interface IFindByShortUrlService
     {

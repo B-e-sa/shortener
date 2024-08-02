@@ -21,6 +21,13 @@ namespace Shortener.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task Visit(Url url)
+        {
+            url.Visits += 1;
+            _dbContext.Urls.Update(url);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public Task<Url> Get()
         {
             throw new NotImplementedException();
