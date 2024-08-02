@@ -4,6 +4,11 @@ POST {{url}}
 content-type: application/json
 
 {
-    "url": "http://jogando98.com",
-    "title": "As folhas que caem"
+    "url": "some_url",
+    "title": "Some Title"
 }
+
+###
+// not gonna work with rest client,
+// as the route does an redirect
+GET {{url}}/3ghW HTTP/1.1

@@ -18,7 +18,11 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 );
 builder.Services.AddSwaggerGen();
 
+// SERVICES
 builder.Services.AddScoped<ICreateUrlService, CreateUrlService>();
+builder.Services.AddScoped<IFindByShortUrlService, FindByShortUrlService>();
+
+// REPOSITORIES
 builder.Services.AddScoped<IUrlRepository, UrlRepository>();
 
 var app = builder.Build();

@@ -1,5 +1,8 @@
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using Shortener.Controllers.ResponseHandlers;
+using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
+using Shortener.Models;
 using Shortener.Services;
 
 namespace Shortener.Controllers
@@ -14,23 +17,29 @@ namespace Shortener.Controllers
         public async Task<IActionResult> Handle([FromBody] UrlCreateRequest req)
         {
             if (string.IsNullOrEmpty(req.Title) || string.IsNullOrEmpty(req.Url))
-                return BadRequest(new { message = "The object must contain the URL and the respective title" });
+                return BadRequest(new BadRequestHandler()
+                {
+                    Message = "The object must contain the URL and the respective title"
+                });
 
             var urlReg = @"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
 
             if (Regex.Match(req.Url, urlReg).Success)
             {
                 var createdUrl = await _createUrlService.Execute(req.Url, req.Title);
-                return Created(nameof(req), createdUrl);
+                return Created(nameof(req), new CreatedHandler<Url>(createdUrl));
             }
 
-            return BadRequest(new { message = "Invalid URL format" });
+            return BadRequest(new BadRequestHandler()
+            {
+                Message = "Invalid URL format"
+            });
         }
     }
 
     public class UrlCreateRequest
     {
-        public string Url { get; set; }
-        public string Title { get; set; }
+        public string? Url { get; set; }
+        public string? Title { get; set; }
     }
 }

@@ -1,5 +1,6 @@
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using Shortener.Controllers.ResponseHandlers;
+using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
 using Shortener.Services;
 
 namespace Shortener.Controllers
@@ -14,12 +15,15 @@ namespace Shortener.Controllers
         public async Task<IActionResult> Handle(string url)
         {
             if (url.Length > 4 || url.Length < 4)
-                return BadRequest(new { message = "Invalid URL" });
+                return BadRequest(new BadRequestHandler()
+                {
+                    Message = "Invalid URL"
+                });
 
             var foundUrl = await _findByShortUrlService.Execute(url);
 
             if (foundUrl == null)
-                return BadRequest(new { message = "This URL does not exist" });
+                return NotFound(new NotFoundHandler());
 
             return Redirect(foundUrl.OriginalUrl);
         }
