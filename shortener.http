@@ -12,3 +12,7 @@ content-type: application/json
 // not gonna work with rest client,
 // as the route does an redirect
 GET {{url}}/3ghW HTTP/1.1
+
+###
+
+GET {{url}} HTTP/1.1

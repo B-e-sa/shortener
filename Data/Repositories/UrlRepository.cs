@@ -28,9 +28,12 @@ namespace Shortener.Data.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<Url> Get()
+        public async Task<List<Url>> GetTop()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Urls
+                .OrderByDescending(u => u.Visits)
+                .Take(10)
+                .ToListAsync();
         }
     }
 }
