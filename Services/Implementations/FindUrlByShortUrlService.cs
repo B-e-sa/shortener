@@ -4,13 +4,13 @@ using Shortener.Services.Models;
 
 namespace Shortener.Services.Implementations
 {
-    public class FindByShortUrlService(IUrlRepository urlRepository) : IFindByShortUrlService
+    public class FindUrlByShortUrlService(IUrlRepository urlRepository) : IFindUrlByShortUrlService
     {
         private readonly  IUrlRepository _urlRepository = urlRepository;
 
-        async public Task<Url?> Execute(string url)
+        async public Task<Url?> Execute(string shortUrl)
         {
-           return await _urlRepository.Find(url);
+           return await _urlRepository.FindByShortUrl(shortUrl);
         }
     }
 }
