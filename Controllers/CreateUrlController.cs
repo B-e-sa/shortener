@@ -16,10 +16,10 @@ namespace Shortener.Controllers
         [HttpPost()]
         public async Task<IActionResult> Handle([FromBody] UrlCreateRequest req)
         {
-            if (string.IsNullOrEmpty(req.Title) || string.IsNullOrEmpty(req.Url))
+            if (req == null || string.IsNullOrEmpty(req.Title) || string.IsNullOrEmpty(req.Url))
                 return BadRequest(new BadRequestHandler()
                 {
-                    Message = "The object must contain the URL and the respective title"
+                    Message = "The object must contain the Url and the respective title"
                 });
 
             var urlReg = @"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
@@ -32,7 +32,7 @@ namespace Shortener.Controllers
 
             return BadRequest(new BadRequestHandler()
             {
-                Message = "Invalid URL format"
+                Message = "Invalid Url format"
             });
         }
     }
