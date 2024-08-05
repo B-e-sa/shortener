@@ -7,14 +7,13 @@ namespace Shortener.Data.Repositories
     {
         private readonly AppDbContext _dbContext = dbContext;
 
-        public async Task<Url> Create(Url url)
+        public async Task Create(Url url)
         {
             _dbContext.Urls.Add(url);
             await _dbContext.SaveChangesAsync();
-            return url;
         }
 
-        public async Task<Url?> Find(string url)
+        public async Task<Url?> FindByShortUrl(string url)
         {
             return await _dbContext.Urls
                 .Where(u => u.ShortUrl == url)
@@ -34,6 +33,17 @@ namespace Shortener.Data.Repositories
                 .OrderByDescending(u => u.Visits)
                 .Take(10)
                 .ToListAsync();
+        }
+
+        public async Task Delete(Url url)
+        {
+            _dbContext.Urls.Remove(url);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Url?> FindById(string id)
+        {
+            return await _dbContext.Urls.FindAsync(int.Parse(id));
         }
     }
 }

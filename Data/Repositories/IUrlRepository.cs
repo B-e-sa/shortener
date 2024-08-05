@@ -4,10 +4,12 @@ namespace Shortener.Data.Repositories
 {
     public interface IUrlRepository
     {
-        Task<Url> Create(Url url);
-        Task<List<Url>> GetTop();
-        Task<Url?> Find(string url);
+        Task Create(Url url);
+        Task Delete(Url url);
         Task Visit(Url url);
+        Task<List<Url>> GetTop();
+        Task<Url?> FindByShortUrl(string url);
+        Task<Url?> FindById(string id);
     }
 }
 
