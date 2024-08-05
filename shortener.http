@@ -1,18 +1,28 @@
 @url = http://localhost:5229
 
+### CREATE URL
 POST {{url}}
 content-type: application/json
 
 {
-    "url": "some_url",
-    "title": "Some Title"
+    "url": "http://localhost.com",
+    "title": "New title"
 }
 
-###
+### VISIT URL
 // not gonna work with rest client,
 // as the route does an redirect
-GET {{url}}/3ghW HTTP/1.1
+GET {{url}}/oJE1 HTTP/1.1
 
-###
+### GET TOP 10 URL
 
 GET {{url}} HTTP/1.1
+
+### DELETE URL
+
+DELETE {{url}} HTTP/1.1
+content-type: application/json
+
+{
+    "id": "6"
+}

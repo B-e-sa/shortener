@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(x =>
     {
         x.SuppressMapClientErrors = true;
+        x.SuppressModelStateInvalidFilter = true;
     });
 builder.Services.AddDbContext<AppDbContext>(x =>
     {
@@ -21,8 +22,11 @@ builder.Services.AddSwaggerGen();
 
 // SERVICES
 builder.Services.AddScoped<ICreateUrlService, CreateUrlService>();
-builder.Services.AddScoped<IFindByShortUrlService, FindByShortUrlService>();
+builder.Services.AddScoped<IFindUrlByShortUrlService, FindUrlByShortUrlService>();
 builder.Services.AddScoped<IGetTopUrlsService, GetTopUrlsService>();
+builder.Services.AddScoped<IDeleteUrlService, DeleteUrlService>();
+builder.Services.AddScoped<IFindUrlByIdService, FindUrlByIdService>();
+builder.Services.AddScoped<IVisitUrlService, VisitUrlService>();
 
 // REPOSITORIES
 builder.Services.AddScoped<IUrlRepository, UrlRepository>();
