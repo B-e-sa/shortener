@@ -14,7 +14,7 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(x =>
     });
 builder.Services.AddDbContext<AppDbContext>(x =>
     {
-        x.UseSqlite(builder.Configuration.GetConnectionString("Database"));
+        x.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
     },
     ServiceLifetime.Scoped
 );

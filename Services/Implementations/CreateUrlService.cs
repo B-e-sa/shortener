@@ -8,7 +8,7 @@ namespace Shortener.Services.Implementations
     {
         private readonly IUrlRepository _urlRepository = urlRepository;
 
-        private static string ShortUrl()
+        private static string GenerateShortUrl()
         {
             string shortUrl = "";
             string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGIJKLMNOPQRSTUVWXYZ0123456789";
@@ -26,11 +26,9 @@ namespace Shortener.Services.Implementations
         {
             var newUrl = new Url
             {
-                OriginalUrl = url,
-                ShortUrl = ShortUrl(),
                 Title = title,
-                Visits = 0,
-                CreatedAt = DateTime.UtcNow
+                OriginalUrl = url,
+                ShortUrl = GenerateShortUrl(),
             };
 
             await _urlRepository.Create(newUrl);

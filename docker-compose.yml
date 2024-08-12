@@ -1,0 +1,12 @@
+services:
+  postgres:
+    container_name: shortener-db
+    image: postgres
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_USER: shortener-admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: shortener-api
+    volumes:
+      - ./data/pg:/data/postgres
