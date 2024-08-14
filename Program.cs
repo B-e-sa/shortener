@@ -12,12 +12,14 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(x =>
         x.SuppressMapClientErrors = true;
         x.SuppressModelStateInvalidFilter = true;
     });
+
 builder.Services.AddDbContext<AppDbContext>(x =>
     {
         x.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
     },
     ServiceLifetime.Scoped
 );
+
 builder.Services.AddSwaggerGen();
 
 // SERVICES
@@ -42,3 +44,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
+
+public partial class Program;

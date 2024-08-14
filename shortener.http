@@ -5,14 +5,14 @@ POST {{url}}
 content-type: application/json
 
 {
-    "url": "http://localhost.com",
-    "title": "New title"
+    "url": "https://www.google.com",
+    "title": "New Url"
 }
 
 ### VISIT URL
 // not gonna work with rest client,
 // as the route does an redirect
-GET {{url}}/oJE1 HTTP/1.1
+GET {{url}}/teZj HTTP/1.1
 
 ### GET TOP 10 URL
 

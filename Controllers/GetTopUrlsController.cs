@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Shortener.Controllers.ResponseHandlers;
 using Shortener.Services.Models;
 
 namespace Shortener.Controllers
@@ -14,13 +13,6 @@ namespace Shortener.Controllers
         public async Task<IActionResult> Handle()
         {
             var urls = await _getTopUrlsService.Execute();
-
-            if (urls.Count == 0)
-                return NotFound(new NotFoundHandler()
-                {
-                    Message = "No url was found"
-                });
-
             return Ok(urls);
         }
     }

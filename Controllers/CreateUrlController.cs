@@ -22,7 +22,7 @@ namespace Shortener.Controllers
                     Message = "The object must contain the Url and the respective title"
                 });
 
-            var urlReg = @"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
+            var urlReg = @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)";
 
             if (Regex.Match(req.Url, urlReg).Success)
             {

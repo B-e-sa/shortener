@@ -10,6 +10,10 @@ namespace Shortener.Data
             builder.Entity<Url>()
                 .Property(u => u.Visits)
                 .HasDefaultValue(0);
+
+            builder.Entity<Url>()
+                .Property(u => u.CreatedAt)
+                .HasDefaultValueSql("now()");
         }
 
         public DbSet<Url> Urls { get; set; }
