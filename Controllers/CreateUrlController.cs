@@ -16,7 +16,11 @@ namespace Shortener.Controllers
         [HttpPost()]
         public async Task<IActionResult> Handle([FromBody] UrlCreateRequest req)
         {
-            if (req == null || string.IsNullOrEmpty(req.Title) || string.IsNullOrEmpty(req.Url))
+            if (
+                req == null
+                || string.IsNullOrEmpty(req.Title)
+                || string.IsNullOrEmpty(req.Url)
+            )
                 return BadRequest(new BadRequestHandler()
                 {
                     Message = "The object must contain the Url and the respective title"
@@ -24,22 +28,20 @@ namespace Shortener.Controllers
 
             var urlReg = @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)";
 
-            if (Regex.Match(req.Url, urlReg).Success)
-            {
-                var createdUrl = await _createUrlService.Execute(req.Url, req.Title);
-                return Created(nameof(req), new CreatedHandler<Url>(createdUrl));
-            }
+            if (!Regex.Match(req.Url, urlReg).Success)
+                return BadRequest(new BadRequestHandler()
+                {
+                    Message = "Invalid Url format"
+                });
 
-            return BadRequest(new BadRequestHandler()
-            {
-                Message = "Invalid Url format"
-            });
+            var createdUrl = await _createUrlService.Execute(req.Url, req.Title);
+            return Created(nameof(req), new CreatedHandler<Url>(createdUrl));
         }
     }
 
-    public class UrlCreateRequest
+    public class UrlCreateRequest(string? title, string? url)
     {
-        public string? Url { get; set; }
-        public string? Title { get; set; }
+        public string? Url { get; set; } = url;
+        public string? Title { get; set; } = title;
     }
 }
