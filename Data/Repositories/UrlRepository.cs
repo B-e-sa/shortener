@@ -29,7 +29,9 @@ namespace Shortener.Data.Repositories
 
         public async Task<List<Url>> GetTop()
         {
+            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
             return await _dbContext.Urls
+                .Where(u => u.CreatedAt >= oneWeekAgo)
                 .OrderByDescending(u => u.Visits)
                 .Take(10)
                 .ToListAsync();
