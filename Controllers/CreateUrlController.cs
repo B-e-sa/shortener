@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Controllers.ResponseHandlers;
@@ -35,7 +36,7 @@ namespace Shortener.Controllers
                 });
 
             var createdUrl = await _createUrlService.Execute(req.Url, req.Title);
-            return Created(nameof(req), new CreatedHandler<Url>(createdUrl));
+            return Created(nameof(req), new UrlCreateResponse(createdUrl));
         }
     }
 
@@ -43,5 +44,9 @@ namespace Shortener.Controllers
     {
         public string? Url { get; set; } = url;
         public string? Title { get; set; } = title;
+    }
+
+    public class UrlCreateResponse(Url data) : CreatedHandler<Url>(data)
+    {
     }
 }

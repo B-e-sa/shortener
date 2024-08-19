@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Shortener.Controllers.ResponseHandlers;
+using Shortener.Models;
 using Shortener.Services.Models;
 
 namespace Shortener.Controllers
@@ -13,7 +15,11 @@ namespace Shortener.Controllers
         public async Task<IActionResult> Handle()
         {
             var urls = await _getTopUrlsService.Execute();
-            return Ok(urls);
+            return Ok(new GetTopUrlsResponse(urls));
         }
+    }
+
+    public class GetTopUrlsResponse(List<Url> data) : OkHandler<List<Url>>(data)
+    {
     }
 }
