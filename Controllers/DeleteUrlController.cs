@@ -21,20 +21,18 @@ namespace Shortener.Controllers
 
             try
             {
-                int.Parse(id);
+                var url = await _findUrlByIdService.Execute(int.Parse(id));
+
+                if (url == null)
+                    return NotFound(new NotFoundHandler());
+
+                await _deleteUrlService.Execute(url);
+                return Ok(new DeleteUrlResponse(url));
             }
             catch (FormatException)
             {
                 return BadRequest(new BadRequestHandler() { Message = "Invalid url id" });
             }
-
-            var url = await _findUrlByIdService.Execute(id);
-
-            if (url == null)
-                return NotFound(new NotFoundHandler());
-
-            await _deleteUrlService.Execute(url);
-            return Ok(new DeleteUrlResponse(url));
         }
     }
 

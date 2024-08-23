@@ -7,12 +7,12 @@ using Shortener.Services.Models;
 namespace Shortener.Controllers
 {
     [ApiController]
-    [Route("/find")]
+    [Route("/find/{id}")]
     public class FindUrlByIdController(IFindUrlByIdService findUrlByIdService) : ControllerBase
     {
         private readonly IFindUrlByIdService _findUrlByIdService = findUrlByIdService;
 
-        [HttpPost("{id}")]
+        [HttpGet]
         public async Task<IActionResult> Handle(string id)
         {
             if (id == null)
@@ -20,19 +20,17 @@ namespace Shortener.Controllers
 
             try
             {
-                int.Parse(id);
+                var url = await _findUrlByIdService.Execute(int.Parse(id));
+
+                if (url == null)
+                    return NotFound(new NotFoundHandler());
+
+                return Ok(new FindUrlByIdResponse(url));
             }
             catch (FormatException)
             {
                 return BadRequest(new BadRequestHandler() { Message = "Invalid url id" });
             }
-
-            var url = await _findUrlByIdService.Execute(id);
-
-            if (url == null)
-                return NotFound(new NotFoundHandler());
-
-            return Ok(new FindUrlByIdResponse(url));
         }
     }
 
