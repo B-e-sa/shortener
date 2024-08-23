@@ -43,9 +43,9 @@ namespace Shortener.Data.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Url?> FindById(string id)
+        public async Task<Url?> FindById(int id)
         {
-            return await _dbContext.Urls.FindAsync(int.Parse(id));
+            return await _dbContext.Urls.FindAsync(id);
         }
     }
 }

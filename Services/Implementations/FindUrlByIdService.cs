@@ -8,7 +8,7 @@ namespace Shortener.Services.Implementations
     {
         private readonly IUrlRepository _urlRepository = urlRepository;
 
-        public async Task<Url?> Execute(string id)
+        public async Task<Url?> Execute(int id)
         {
             return await _urlRepository.FindById(id);
         }

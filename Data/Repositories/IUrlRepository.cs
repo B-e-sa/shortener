@@ -9,7 +9,7 @@ namespace Shortener.Data.Repositories
         Task Visit(Url url);
         Task<List<Url>> GetTop();
         Task<Url?> FindByShortUrl(string url);
-        Task<Url?> FindById(string id);
+        Task<Url?> FindById(int id);
     }
 }
 
