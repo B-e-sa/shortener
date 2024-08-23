@@ -1,6 +1,5 @@
 using System.Net;
 using FluentAssertions;
-using Newtonsoft.Json;
 using Shortener.Controllers;
 using Shortener.Tests.Abstractions;
 using Xunit;
@@ -25,7 +24,11 @@ namespace Shortener.Tests.Urls
             createdRes.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var foundRes = await HttpClient.GetAsync($"http://localhost:5229/{createdBody.Data?.ShortUrl}");
-            var expectedValues = new[] { HttpStatusCode.Redirect, HttpStatusCode.OK };
+            var expectedValues = new[]
+            {
+                HttpStatusCode.Redirect,
+                HttpStatusCode.OK
+            };
             foundRes.StatusCode.Should().BeOneOf(expectedValues);
         }
 
