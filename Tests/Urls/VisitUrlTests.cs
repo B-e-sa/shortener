@@ -35,5 +35,34 @@ namespace Shortener.Tests.Urls
             visitRes.StatusCode.Should().BeOneOf(expectedValues);
             foundResBody.Data?.Visits.Should().Be(1);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenUrlDoesNotExists()
+        {
+            // Arrange
+            var shortUrl = "abcd";
+
+            // Act
+            var visitRes = await HttpClient.GetAsync($"http://localhost:5229/{shortUrl}");
+
+            // Assert
+            visitRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenIdIsInvalid()
+        {
+            // Arrange
+            var id1 = "abc";
+            var id2 = "abcde";
+
+            // Act
+            var firstVisitRes = await HttpClient.GetAsync($"http://localhost:5229/{id1}");
+            var secondVisitRes = await HttpClient.GetAsync($"http://localhost:5229/{id2}");
+
+            // Assert
+            firstVisitRes.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            secondVisitRes.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
