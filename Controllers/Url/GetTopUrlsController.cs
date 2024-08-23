@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Controllers.ResponseHandlers;
-using Shortener.Models;
 using Shortener.Services.Models;
 
-namespace Shortener.Controllers
+namespace Shortener.Controllers.Url
 {
     [ApiController]
     [Route("/")]
@@ -19,7 +18,7 @@ namespace Shortener.Controllers
         }
     }
 
-    public class GetTopUrlsResponse(List<Url> data) : OkHandler<List<Url>>(data)
+    public class GetTopUrlsResponse(List<Models.Url> data) : OkHandler<List<Models.Url>>(data)
     {
     }
 }

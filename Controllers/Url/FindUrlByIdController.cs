@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Controllers.ResponseHandlers;
 using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
-using Shortener.Models;
 using Shortener.Services.Models;
 
-namespace Shortener.Controllers
+namespace Shortener.Controllers.Url
 {
     [ApiController]
     [Route("/find/{id}")]
@@ -34,7 +33,7 @@ namespace Shortener.Controllers
         }
     }
 
-    public class FindUrlByIdResponse(Url data) : OkHandler<Url>(data)
+    public class FindUrlByIdResponse(Models.Url data) : OkHandler<Models.Url>(data)
     {
     }
 }

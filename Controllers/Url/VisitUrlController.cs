@@ -3,7 +3,7 @@ using Shortener.Controllers.ResponseHandlers;
 using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
 using Shortener.Services.Models;
 
-namespace Shortener.Controllers
+namespace Shortener.Controllers.Url
 {
     [ApiController]
     [Route("/")]

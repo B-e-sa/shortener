@@ -1,12 +1,10 @@
-using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Controllers.ResponseHandlers;
 using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
-using Shortener.Models;
 using Shortener.Services.Models;
 
-namespace Shortener.Controllers
+namespace Shortener.Controllers.Url
 {
     [ApiController]
     [Route("/")]
@@ -46,7 +44,7 @@ namespace Shortener.Controllers
         public string? Title { get; set; } = title;
     }
 
-    public class UrlCreateResponse(Url data) : CreatedHandler<Url>(data)
+    public class UrlCreateResponse(Models.Url data) : CreatedHandler<Models.Url>(data)
     {
     }
 }

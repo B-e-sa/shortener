@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Controllers.ResponseHandlers;
 using Shortener.Controllers.ResponseHandlers.ErrorHandlers;
-using Shortener.Models;
 using Shortener.Services.Models;
 
-namespace Shortener.Controllers
+namespace Shortener.Controllers.Url
 {
     [ApiController]
     [Route("/")]
@@ -36,7 +35,7 @@ namespace Shortener.Controllers
         }
     }
 
-    public class DeleteUrlResponse(Url data) : OkHandler<Url>(data)
+    public class DeleteUrlResponse(Models.Url data) : OkHandler<Models.Url>(data)
     {
     }
 }

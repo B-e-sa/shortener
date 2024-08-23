@@ -1,6 +1,6 @@
 using System.Net;
 using FluentAssertions;
-using Shortener.Controllers;
+using Shortener.Controllers.Url;
 using Shortener.Tests.Abstractions;
 using Xunit;
 
