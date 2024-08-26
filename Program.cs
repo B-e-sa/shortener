@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Shortener.Application.Commands.Url;
+using Shortener.Application;
+using Shortener.Application.Commands.Url.CreateUrl;
 using Shortener.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,9 +16,7 @@ builder.Services.AddControllers()
         x.SuppressModelStateInvalidFilter = true;
     });
 
-var applicationAssembly = typeof(Shortener.Application.AssemblyReference).Assembly;
-
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
+builder.Services.AddApplicationServices();
 
 builder.Services.AddDbContext<AppDbContext>(x =>
     {
