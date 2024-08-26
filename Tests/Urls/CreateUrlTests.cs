@@ -1,7 +1,7 @@
 using System.Net;
 using FluentAssertions;
-using Shortener.Controllers.Url;
 using Shortener.Tests.Abstractions;
+using Shortener.Web.Controllers.Url;
 using Xunit;
 
 namespace Shortener.Tests.Urls

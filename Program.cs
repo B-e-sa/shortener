@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Shortener.Data;
-using Shortener.Data.Repositories;
-using Shortener.Services.Implementations;
-using Shortener.Services.Models;
+using Shortener.Application.Services.Url;
+using Shortener.Application.Services.Url.Models;
+using Shortener.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +28,6 @@ builder.Services.AddScoped<IGetTopUrlsService, GetTopUrlsService>();
 builder.Services.AddScoped<IDeleteUrlService, DeleteUrlService>();
 builder.Services.AddScoped<IFindUrlByIdService, FindUrlByIdService>();
 builder.Services.AddScoped<IVisitUrlService, VisitUrlService>();
-
-// REPOSITORIES
-builder.Services.AddScoped<IUrlRepository, UrlRepository>();
 
 var app = builder.Build();
 

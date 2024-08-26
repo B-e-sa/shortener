@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Shortener.Data;
+using Shortener.Infrastructure;
 using System.Threading.Tasks;
 using Xunit;
 

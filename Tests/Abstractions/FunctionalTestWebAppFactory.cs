@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Shortener.Data;
+using Shortener.Infrastructure;
 using Testcontainers.PostgreSql;
 using Xunit;
 
