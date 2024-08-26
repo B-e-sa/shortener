@@ -1,7 +1,7 @@
 using MediatR;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Commands.Url
+namespace Shortener.Application.Commands.Url.CreateUrl
 {
     public record CreateUrlCommand : IRequest<Domain.Entities.Url>
     {
