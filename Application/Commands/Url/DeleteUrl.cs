@@ -1,9 +1,11 @@
-using Shortener.Application.Services.Url.Models;
+using MediatR;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Services.Url
+namespace Shortener.Application.Commands.Url
 {
-    public class DeleteUrlService(AppDbContext dbContext) : IDeleteUrlService
+    public record DeleteUrlCommand(int Id) : IRequest;
+
+    public class DeleteUrlCommandHandler(AppDbContext dbContext)
     {
         private readonly AppDbContext _dbContext = dbContext; 
 

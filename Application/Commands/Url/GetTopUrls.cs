@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Shortener.Application.Services.Url.Models;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Services.Url
+namespace Shortener.Application.Commands.Url
 {
-    public class GetTopUrlsService(AppDbContext dbContext) : IGetTopUrlsService
+    public class GetTopUrlsCommandHandler(AppDbContext dbContext)
     {
         private readonly AppDbContext _dbContext = dbContext;
 

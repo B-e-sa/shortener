@@ -1,9 +1,11 @@
-using Shortener.Application.Services.Url.Models;
+using MediatR;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Services.Url
+namespace Shortener.Application.Commands.Url
 {
-    public class VisitUrlService(AppDbContext dbContext) : IVisitUrlService
+     public record VisitUrlCommand(string Url) : IRequest;
+
+    public class VisitUrlCommandHandler(AppDbContext dbContext)
     {
         private readonly AppDbContext _dbContext = dbContext;
 

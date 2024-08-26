@@ -1,9 +1,11 @@
-using Shortener.Application.Services.Url.Models;
+using MediatR;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Services.Url
+namespace Shortener.Application.Commands.Url
 {
-    public class FindUrlByIdService(AppDbContext dbContext) : IFindUrlByIdService
+    public record FindUrlByIdCommand(int Id) : IRequest;
+
+    public class FindUrlByIdCommandHandler(AppDbContext dbContext)
     {
         private readonly AppDbContext _dbContext = dbContext;
 

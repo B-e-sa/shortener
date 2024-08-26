@@ -1,9 +1,15 @@
-using Shortener.Application.Services.Url.Models;
+using MediatR;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Services.Url
+namespace Shortener.Application.Commands.Url
 {
-    class CreateUrlService(AppDbContext dbContext) : ICreateUrlService
+    public record CreateUrlCommand : IRequest<Domain.Entities.Url>
+    {
+        public string Url { get; init; }
+        public string Title { get; init; }
+    }
+
+    class CreateUrlCommandHandler(AppDbContext dbContext) : IRequestHandler<CreateUrlCommand, Domain.Entities.Url>
     {
         private readonly AppDbContext _dbContext = dbContext;
 
@@ -21,17 +27,17 @@ namespace Shortener.Application.Services.Url
             return shortUrl;
         }
 
-        public async Task<Domain.Entities.Url> Execute(string url, string title)
+        public async Task<Domain.Entities.Url> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
         {
             var newUrl = new Domain.Entities.Url
             {
-                Title = title,
-                OriginalUrl = url,
+                Title = request.Title,
+                OriginalUrl = request.Url,
                 ShortUrl = GenerateShortUrl(),
             };
 
             _dbContext.Urls.Add(newUrl);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return newUrl;
         }
