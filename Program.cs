@@ -1,21 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using Shortener.Application;
-using Shortener.Application.Commands.Url.CreateUrl;
 using Shortener.Infrastructure;
+using Shortener.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var presentationAssembly = typeof(Shortener.Presentation.AssemblyReference).Assembly;
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllers()
-    .AddApplicationPart(presentationAssembly)
-    .ConfigureApiBehaviorOptions(x =>
-    {
-        x.SuppressMapClientErrors = true;
-        x.SuppressModelStateInvalidFilter = true;
-    });
 
+// Presentation layer & Controllers
+builder.Services.AddControllers()
+    .AddApplicationPart(presentationAssembly);
+
+// Application Layer
 builder.Services.AddApplicationServices();
 
 builder.Services.AddDbContext<AppDbContext>(x =>
@@ -25,15 +23,9 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     ServiceLifetime.Scoped
 );
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
-// SERVICES
-builder.Services.AddScoped<CreateUrlCommand>();
-// builder.Services.AddScoped<FindUrlByShortUrlCommand>();
-// builder.Services.AddScoped<GetTopUrlsCommand>();
-// builder.Services.AddScoped<DeleteUrlCommand>();
-// builder.Services.AddScoped<FindUrlByIdCommand>();
-// builder.Services.AddScoped<VisitUrlCommand>();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -43,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
