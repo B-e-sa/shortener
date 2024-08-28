@@ -1,12 +1,12 @@
 @url = http://localhost:5229
 
 ### CREATE URL
-POST {{url}}
+POST {{url}}/api/url
 content-type: application/json
 
 {
-    "url": "https://www.google.com",
-    "title": "New Url"
+    "url": "",
+    "title": ""
 }
 
 ### VISIT URL
