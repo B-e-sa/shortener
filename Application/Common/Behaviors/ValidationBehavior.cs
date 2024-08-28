@@ -2,11 +2,9 @@ using FluentValidation;
 using MediatR;
 using ValidationException = Shortener.Application.Common.Exceptions.ValidationException;
 
-namespace Shortener.Application.Common.Behaviours
+namespace Shortener.Application.Common.Behaviors
 {
-    public class ValidationBehaviour<TRequest, TResponse>(
-        IEnumerable<IValidator<TRequest>> validators
-    ) : IPipelineBehavior<TRequest, TResponse>
+    public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
          where TRequest : notnull
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
@@ -22,7 +20,7 @@ namespace Shortener.Application.Common.Behaviours
                         v.ValidateAsync(context, cancellationToken)));
 
                 var failures = validationResults
-                    .Where(r => r.Errors.Count != 0)
+                    .Where(r => r.Errors.Any())
                     .SelectMany(r => r.Errors)
                     .ToList();
 
