@@ -1,11 +1,11 @@
 using FluentValidation;
 
-namespace Shortener.Application.Commands.Url.CreateUrl
+namespace Shortener.Application.Url.Commands.CreateUrl
 {
 
-    public class CreateTodoItemCommandValidator : AbstractValidator<CreateUrlCommand>
+    public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
     {
-        public CreateTodoItemCommandValidator()
+        public CreateUrlCommandValidator()
         {
             RuleFor(v => v.Title)
                 .MaximumLength(40)

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Commands.Url
+namespace Shortener.Application.Url.Commands.GetTopUrls
 {
     public class GetTopUrlsCommandHandler(AppDbContext dbContext)
     {

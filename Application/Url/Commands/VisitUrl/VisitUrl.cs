@@ -1,7 +1,7 @@
 using MediatR;
 using Shortener.Infrastructure;
 
-namespace Shortener.Application.Commands.Url
+namespace Shortener.Application.Url.Commands.VisitUrl
 {
      public record VisitUrlCommand(string Url) : IRequest;
 
