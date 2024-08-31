@@ -4,7 +4,7 @@ using Shortener.Infrastructure;
 
 namespace Shortener.Application.Url.Queries.FindUrlById
 {
-    public sealed record FindUrlByIdQuery(string Id) : IRequest<Domain.Entities.Url>;
+    public sealed record FindUrlByIdQuery(int Id) : IRequest<Domain.Entities.Url>;
 
     internal sealed class FindUrlByIdQueryHandler(AppDbContext dbContext) : IRequestHandler<FindUrlByIdQuery, Domain.Entities.Url>
     {

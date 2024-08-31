@@ -1,4 +1,5 @@
 using FluentValidation;
+using Shortener.Application.Common;
 
 namespace Shortener.Application.Url.Queries.FindUrlById
 {
@@ -6,12 +7,7 @@ namespace Shortener.Application.Url.Queries.FindUrlById
     {
         public FindUrlByidQueryValidator()
         {
-            RuleFor(v => v.Id)
-                .Custom((x, context) =>
-                {
-                    if (!int.TryParse(x, out int value) || value < 0)
-                        context.AddFailure($"{x} is not a valid id number.");
-                });
+            RuleFor(v => v.Id).SetValidator(new IdValidator());
         }
     }
 }
