@@ -19,6 +19,10 @@ namespace Shortener.Application.Url.Queries.FindUrlByShortUrl
 
             Guard.Against.NotFound(req.ShortUrl, foundUrl);
 
+            foundUrl.Visits += 1;
+            _dbContext.Urls.Update(foundUrl);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
             return foundUrl;
         }
     }
