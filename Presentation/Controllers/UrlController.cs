@@ -1,8 +1,10 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Application.Url.Commands.CreateUrl;
-using Shortener.Application.Url.Queries;
+using Shortener.Application.Url.Commands.DeleteUrl;
+using Shortener.Application.Url.Queries.FindUrlById;
 using Shortener.Application.Url.Queries.FindUrlByShortUrl;
+using Shortener.Application.Url.Queries.GetTopUrls;
 
 namespace Shortener.Presentation.Controllers
 {
@@ -34,6 +36,18 @@ namespace Shortener.Presentation.Controllers
             return Ok(foundUrl);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetTop(
+            CancellationToken cancellationToken
+        )
+        {
+            var query = new GetTopUrlsQuery();
+
+            var foundUrls = await Sender.Send(query, cancellationToken);
+
+            return Ok(foundUrls);
+        }
+
         [HttpGet("{url}")]
         public async Task<IActionResult> FindByShortUrl(
             string url,
@@ -45,6 +59,19 @@ namespace Shortener.Presentation.Controllers
             var foundUrl = await Sender.Send(query, cancellationToken);
 
             return Ok(foundUrl);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUrl(
+            int id,
+            CancellationToken cancellationToken
+        )
+        {
+            var command = new DeleteUrlCommand(id);
+
+            await Sender.Send(command, cancellationToken);
+
+            return Ok(id);
         }
     }
 }

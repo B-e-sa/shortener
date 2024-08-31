@@ -1,32 +1,35 @@
-/*
 using System.Net;
 using FluentAssertions;
+using Shortener.Application.Url.Commands.CreateUrl;
 using Shortener.Tests.Abstractions;
-using Shortener.Web.Controllers.Url;
 using Xunit;
 
 namespace Shortener.Tests.Urls
 {
     public class DeleteUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
     {
-        private readonly TestHelper helper = new();
+        private readonly TestHelper helper = new("url");
 
         [Fact]
         public async Task Should_ReturnOk_WhenUrlExists()
         {
             // Arrange
-            var url = new UrlCreateRequest("New Url", "https://www.google.com");
-            var createdRes = await HttpClient.PostAsJsonAsync("http://localhost:5229", url);
-            var createdbody = await helper.DeserializeResponse<UrlCreateResponse>(createdRes);
-            var createdUrl = createdbody.Data;
+            var url = new CreateUrlCommand()
+            {
+                Title = "New Url",
+                Url = "https://www.google.com"
+            };
+
+            var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
+            var createdbody = await helper.DeserializeResponse<Domain.Entities.Url>(createdRes);
 
             // Act
-            var deletedRes = await HttpClient.DeleteAsync($"http://localhost:5229/{createdUrl?.Id}");
+            var deletedRes = await HttpClient.DeleteAsync($"{helper.GetApiUrl()}/{createdbody?.Id}");
 
             // Assert
             deletedRes.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var foundRes = await HttpClient.GetAsync($"http://localhost:5229/{createdUrl?.ShortUrl}");
+            var foundRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/{createdbody?.ShortUrl}");
             foundRes.StatusCode.Should().BeOneOf(HttpStatusCode.NotFound);
         }
 
@@ -37,7 +40,7 @@ namespace Shortener.Tests.Urls
             var urlId = "125";
 
             // Act
-            var deletedRes = await HttpClient.DeleteAsync($"http://localhost:5229/{urlId}");
+            var deletedRes = await HttpClient.DeleteAsync($"{helper.GetApiUrl()}/{urlId}");
 
             // Assert
             deletedRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -50,11 +53,10 @@ namespace Shortener.Tests.Urls
             var urlId = "1abc";
 
             // Act
-            var deleteRes = await HttpClient.DeleteAsync($"http://localhost:5229/{urlId}");
+            var deleteRes = await HttpClient.DeleteAsync($"{helper.GetApiUrl()}/{urlId}");
 
             // Assert
             deleteRes.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
-*/
