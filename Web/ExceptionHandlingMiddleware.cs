@@ -30,7 +30,7 @@ namespace Shortener.Web
 
             httpContext.Response.StatusCode = exception switch
             {
-                BadRequestException or ValidationException => StatusCodes.Status400BadRequest,
+                ValidationException => StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError
             };
