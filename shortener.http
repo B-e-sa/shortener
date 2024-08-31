@@ -5,24 +5,21 @@ POST {{url}}/api/url
 content-type: application/json
 
 {
-    "url": "",
-    "title": ""
+    "url": "https://google.com",
+    "title": "Jooje"
 }
 
-### VISIT URL
-// not gonna work with rest client,
-// as the route does an redirect
-GET {{url}}/teZj HTTP/1.1
+### FIND BY URL
+GET {{url}}/api/url/qDJo HTTP/1.1
 
 ### GET TOP 10 URL
+GET {{url}}/api/url HTTP/1.1
 
-GET {{url}} HTTP/1.1
+### GET BY ID
+
+GET {{url}}/api/url/find/23 HTTP/1.1
 
 ### DELETE URL
 
-DELETE {{url}} HTTP/1.1
+DELETE {{url}}/api/url/24 HTTP/1.1
 content-type: application/json
-
-{
-    "id": "6"
-}
