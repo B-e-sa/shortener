@@ -3,7 +3,7 @@ using Shortener.Infrastructure;
 
 namespace Shortener.Application.Url.Queries.GetTopUrls
 {
-    public class GetTopUrlsCommandHandler(AppDbContext dbContext)
+    public class GetTopUrlsQueryHandler(AppDbContext dbContext)
     {
         private readonly AppDbContext _dbContext = dbContext;
 
