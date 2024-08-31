@@ -1,31 +1,35 @@
-/*
 using System.Net;
 using FluentAssertions;
+using Shortener.Application.Url.Commands.CreateUrl;
 using Shortener.Tests.Abstractions;
-using Shortener.Web.Controllers.Url;
 using Xunit;
 
 namespace Shortener.Tests.Urls
 {
     public class FindUrlByIdTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
     {
-        private readonly TestHelper helper = new();
+        private readonly TestHelper helper = new("url");
 
         [Fact]
         public async Task Should_ReturnOk_WhenUrlExists()
         {
             // Arrange
-            var url = new UrlCreateRequest("New Url", "https://www.google.com");
-            var createdRes = await HttpClient.PostAsJsonAsync("http://localhost:5229", url);
-            var createdBody = await helper.DeserializeResponse<UrlCreateResponse>(createdRes);
+            var url = new CreateUrlCommand() 
+            {
+                Title = "New Url",
+                Url = "https://www.google.com"
+            };
+            
+            var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
+            var createdBody = await helper.DeserializeResponse<Domain.Entities.Url>(createdRes);
 
             // Act
-            var foundRes = await HttpClient.GetAsync($"http://localhost:5229/find/{createdBody.Data?.Id}");
+            var foundRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/find/{createdBody?.Id}");
 
             // Assert
-            var foundBody = await helper.DeserializeResponse<UrlCreateResponse>(foundRes);
+            var foundBody = await helper.DeserializeResponse<Domain.Entities.Url>(foundRes);
             foundRes.StatusCode.Should().Be(HttpStatusCode.OK);
-            foundBody.Data?.Title.Should().Be("New Url");
+            foundBody.Title.Should().Be("New Url");
         }
 
         [Fact]
@@ -35,7 +39,7 @@ namespace Shortener.Tests.Urls
             var id = "10";
 
             // Act
-            var visitRes = await HttpClient.GetAsync($"http://localhost:5229/find/{id}");
+            var visitRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/find/{id}");
 
             // Assert
             visitRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -49,8 +53,8 @@ namespace Shortener.Tests.Urls
             var id2 = "abcde";
 
             // Act
-            var firstVisitRes = await HttpClient.GetAsync($"http://localhost:5229/find/{id1}");
-            var secondVisitRes = await HttpClient.GetAsync($"http://localhost:5229/find/{id2}");
+            var firstVisitRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/find/{id1}");
+            var secondVisitRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/find/{id2}");
 
             // Assert
             firstVisitRes.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -58,4 +62,3 @@ namespace Shortener.Tests.Urls
         }
     }
 }
-*/
