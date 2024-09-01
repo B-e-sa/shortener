@@ -1,6 +1,7 @@
 using System.Reflection;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Shortener.Application.Common.Behaviors;
 
 namespace Shortener.Application

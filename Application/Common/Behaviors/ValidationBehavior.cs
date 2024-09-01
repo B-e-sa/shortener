@@ -20,7 +20,7 @@ namespace Shortener.Application.Common.Behaviors
                         v.ValidateAsync(context, cancellationToken)));
 
                 var failures = validationResults
-                    .Where(r => r.Errors.Any())
+                    .Where(r => r.Errors.Count != 0)
                     .SelectMany(r => r.Errors)
                     .ToList();
 

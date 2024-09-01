@@ -1,4 +1,4 @@
-@url = http://localhost:5229
+@url = http://localhost:5000
 
 ### CREATE URL
 POST {{url}}/api/url
