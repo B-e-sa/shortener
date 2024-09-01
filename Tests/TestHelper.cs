@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Shortener.Tests
+namespace Shortener.Src.Tests
 {
     public class TestHelper(string currentRoute = "")
     {

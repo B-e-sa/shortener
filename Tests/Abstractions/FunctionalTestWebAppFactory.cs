@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Shortener.Infrastructure;
+using Shortener.Src.Infrastructure;
 using Testcontainers.PostgreSql;
 using Xunit;
 
-namespace Shortener.Tests.Abstractions
+namespace Shortener.Src.Tests.Abstractions
 {
     public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {

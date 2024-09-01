@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Shortener.Infrastructure;
+using Shortener.Src.Infrastructure;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Shortener.Tests.Abstractions
+namespace Shortener.Src.Tests.Abstractions
 {
     public class BaseFunctionalTest : IClassFixture<FunctionalTestWebAppFactory>
     {

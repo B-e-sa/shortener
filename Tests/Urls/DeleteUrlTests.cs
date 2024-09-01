@@ -1,10 +1,10 @@
 using System.Net;
 using FluentAssertions;
-using Shortener.Application.Url.Commands.CreateUrl;
-using Shortener.Tests.Abstractions;
+using Shortener.Src.Application.Url.Commands.CreateUrl;
+using Shortener.Src.Tests.Abstractions;
 using Xunit;
 
-namespace Shortener.Tests.Urls
+namespace Shortener.Src.Tests.Urls
 {
     public class DeleteUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
     {
