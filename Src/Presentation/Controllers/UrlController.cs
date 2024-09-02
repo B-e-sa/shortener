@@ -2,78 +2,77 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Shortener.Src.Application.Url.Commands.CreateUrl;
-using Shortener.Src.Application.Url.Commands.DeleteUrl;
-using Shortener.Src.Application.Url.Queries.FindUrlById;
-using Shortener.Src.Application.Url.Queries.FindUrlByShortUrl;
-using Shortener.Src.Application.Url.Queries.GetTopUrls;
+using Shortener.Application.Url.Commands.CreateUrl;
+using Shortener.Application.Url.Commands.DeleteUrl;
+using Shortener.Application.Url.Queries.FindUrlById;
+using Shortener.Application.Url.Queries.FindUrlByShortUrl;
+using Shortener.Application.Url.Queries.GetTopUrls;
 
-namespace Shortener.Src.Presentation.Controllers
+namespace Shortener.Presentation.Controllers;
+
+public class UrlController() : ApiController
 {
-    public class UrlController() : ApiController
+    [HttpPost]
+    public async Task<IActionResult> CreateUrl(
+        [FromBody] CreateUrlCommand req,
+        CancellationToken cancellationToken
+    )
     {
-        [HttpPost]
-        public async Task<IActionResult> CreateUrl(
-            [FromBody] CreateUrlCommand req,
-            CancellationToken cancellationToken
-        )
-        {
-            var command = req.Adapt<CreateUrlCommand>();
+        var command = req.Adapt<CreateUrlCommand>();
 
-            var urlId = await Sender.Send(command, cancellationToken);
+        var urlId = await Sender.Send(command, cancellationToken);
 
-            return CreatedAtAction(nameof(CreateUrl), new { urlId }, urlId);
-        }
+        return CreatedAtAction(nameof(CreateUrl), new { urlId }, urlId);
+    }
 
-        [HttpGet("find/{id}")]
-        public async Task<IActionResult> FindById(
-            int id,
-            CancellationToken cancellationToken
-        )
-        {
-            var query = new FindUrlByIdQuery(id);
+    [HttpGet("find/{id}")]
+    public async Task<IActionResult> FindById(
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new FindUrlByIdQuery(id);
 
-            var foundUrl = await Sender.Send(query, cancellationToken);
+        var foundUrl = await Sender.Send(query, cancellationToken);
 
-            return Ok(foundUrl);
-        }
+        return Ok(foundUrl);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetTop(
-            CancellationToken cancellationToken
-        )
-        {
-            var query = new GetTopUrlsQuery();
+    [HttpGet]
+    public async Task<IActionResult> GetTop(
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetTopUrlsQuery();
 
-            var foundUrls = await Sender.Send(query, cancellationToken);
+        var foundUrls = await Sender.Send(query, cancellationToken);
 
-            return Ok(foundUrls);
-        }
+        return Ok(foundUrls);
+    }
 
-        [HttpGet("{url}")]
-        public async Task<IActionResult> FindByShortUrl(
-            string url,
-            CancellationToken cancellationToken
-        )
-        {
-            var query = new FindUrlByShortUrlQuery(url);
+    [HttpGet("{url}")]
+    public async Task<IActionResult> FindByShortUrl(
+        string url,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new FindUrlByShortUrlQuery(url);
 
-            var foundUrl = await Sender.Send(query, cancellationToken);
+        var foundUrl = await Sender.Send(query, cancellationToken);
 
-            return Ok(foundUrl);
-        }
+        return Ok(foundUrl);
+    }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUrl(
-            int id,
-            CancellationToken cancellationToken
-        )
-        {
-            var command = new DeleteUrlCommand(id);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUrl(
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new DeleteUrlCommand(id);
 
-            await Sender.Send(command, cancellationToken);
+        await Sender.Send(command, cancellationToken);
 
-            return Ok(id);
-        }
+        return Ok(id);
     }
 }

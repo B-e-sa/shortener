@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Shortener.Src.Infrastructure;
+using Shortener.Infrastructure;
 
 #nullable disable
 
-namespace Shortener.Src.Migrations
+namespace Shortener.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20240812180414_AddUrlCreatedAtDefaultValue")]

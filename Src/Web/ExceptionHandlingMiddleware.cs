@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Shortener.Src.Application.Common.Exceptions;
+using Shortener.Application.Common.Exceptions;
 
-namespace Shortener.Src.Web
+namespace Shortener.Web
 {
 
     internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) : IMiddleware

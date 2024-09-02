@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Shortener.Src.Migrations
+namespace Shortener.Migrations
 {
     /// <inheritdoc />
     public partial class AddUrlCreatedAtDefaultValue : Migration

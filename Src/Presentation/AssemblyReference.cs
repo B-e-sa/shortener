@@ -1,4 +1,4 @@
-namespace Shortener.Src.Presentation;
+namespace Shortener.Presentation;
 
 public static class AssemblyReference
 {

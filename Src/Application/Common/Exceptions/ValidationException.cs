@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace Shortener.Src.Application.Common.Exceptions;
+namespace Shortener.Application.Common.Exceptions;
 
 public class ValidationException : Exception
 {

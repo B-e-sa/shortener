@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
-using Shortener.Src.Application;
-using Shortener.Src.Infrastructure;
-using Shortener.Src.Web;
+using Shortener.Application;
+using Shortener.Infrastructure;
+using Shortener.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var presentationAssembly = typeof(Shortener.Src.Presentation.AssemblyReference).Assembly;
+var presentationAssembly = typeof(Shortener.Presentation.AssemblyReference).Assembly;
 
 builder.Services.AddEndpointsApiExplorer();
 

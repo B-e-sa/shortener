@@ -1,21 +1,20 @@
 using Microsoft.EntityFrameworkCore;
-using Shortener.Src.Domain.Entities;
+using Shortener.Domain.Entities;
 
-namespace Shortener.Src.Infrastructure
+namespace Shortener.Infrastructure;
+
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.Entity<Url>()
-                .Property(u => u.Visits)
-                .HasDefaultValue(0);
+        builder.Entity<Url>()
+            .Property(u => u.Visits)
+            .HasDefaultValue(0);
 
-            builder.Entity<Url>()
-                .Property(u => u.CreatedAt)
-                .HasDefaultValueSql("now()");
-        }
-
-        public DbSet<Url> Urls { get; set; }
+        builder.Entity<Url>()
+            .Property(u => u.CreatedAt)
+            .HasDefaultValueSql("now()");
     }
+
+    public DbSet<Url> Urls { get; set; }
 }

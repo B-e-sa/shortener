@@ -1,6 +1,5 @@
-namespace Shortener.Src.Domain.Common.Exceptions
+namespace Shortener.Domain.Common.Exceptions;
+
+public abstract class BadRequestException(string message) : System.Exception(message)
 {
-    public abstract class BadRequestException(string message) : System.Exception(message)
-    {
-    }
 }
