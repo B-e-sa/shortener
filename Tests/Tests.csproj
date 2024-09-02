@@ -6,6 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="6.12.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.8" />
         <PackageReference Include="Testcontainers.PostgreSql" Version="3.9.0" />
         <PackageReference Include="xunit" Version="2.9.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
@@ -13,5 +16,11 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../Src/Application/Application.csproj" />
+        <ProjectReference Include="../Src/Domain/Domain.csproj" />
+        <ProjectReference Include="../Src/Web/Web.csproj" />
     </ItemGroup>
 </Project>
