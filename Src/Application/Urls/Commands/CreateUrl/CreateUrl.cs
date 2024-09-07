@@ -1,7 +1,7 @@
 using MediatR;
-using Shortener.Infrastructure;
+using Shortener.Application.Common.Interfaces;
 
-namespace Shortener.Application.Url.Commands.CreateUrl;
+namespace Shortener.Application.Urls.Commands.CreateUrl;
 
 public record CreateUrlCommand : IRequest<Domain.Entities.Url>
 {
@@ -9,9 +9,9 @@ public record CreateUrlCommand : IRequest<Domain.Entities.Url>
     public string Title { get; init; }
 }
 
-class CreateUrlCommandHandler(AppDbContext dbContext) : IRequestHandler<CreateUrlCommand, Domain.Entities.Url>
+class CreateUrlCommandHandler(IAppDbContext context) : IRequestHandler<CreateUrlCommand, Domain.Entities.Url>
 {
-    private readonly AppDbContext _dbContext = dbContext;
+    private readonly IAppDbContext _context = context;
 
     private static string GenerateShortUrl()
     {
@@ -36,8 +36,8 @@ class CreateUrlCommandHandler(AppDbContext dbContext) : IRequestHandler<CreateUr
             ShortUrl = GenerateShortUrl(),
         };
 
-        _dbContext.Urls.Add(newUrl);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        _context.Urls.Add(newUrl);
+        await _context.SaveChangesAsync(cancellationToken);
 
         return newUrl;
     }

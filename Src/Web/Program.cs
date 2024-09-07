@@ -1,11 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Shortener.Application;
-using Shortener.Infrastructure;
 using Shortener.Web;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Shortener.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,23 +18,13 @@ builder.Services.AddCors(options =>
         });
 });
 
-var presentationAssembly = typeof(Shortener.Presentation.AssemblyReference).Assembly;
-
 builder.Services.AddEndpointsApiExplorer();
 
-// Presentation layer & Controllers
-builder.Services.AddControllers()
-    .AddApplicationPart(presentationAssembly);
-
-// Application Layer
+// DI
+var presentationAssembly = typeof(Shortener.Presentation.AssemblyReference).Assembly;
+builder.Services.AddControllers().AddApplicationPart(presentationAssembly);
 builder.Services.AddApplicationServices();
-
-builder.Services.AddDbContext<AppDbContext>(x =>
-    {
-        x.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
-    },
-    ServiceLifetime.Scoped
-);
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Shortener.Application.Url.Queries.FindUrlByShortUrl;
+namespace Shortener.Application.Urls.Queries.FindUrlByShortUrl;
 
 public class FindUrlByShortUrlQueryValidator : AbstractValidator<FindUrlByShortUrlQuery>
 {

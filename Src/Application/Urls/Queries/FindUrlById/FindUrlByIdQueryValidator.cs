@@ -1,7 +1,7 @@
 using FluentValidation;
 using Shortener.Application.Common;
 
-namespace Shortener.Application.Url.Queries.FindUrlById;
+namespace Shortener.Application.Urls.Queries.FindUrlById;
 
 public class FindUrlByidQueryValidator : AbstractValidator<FindUrlByIdQuery>
 {

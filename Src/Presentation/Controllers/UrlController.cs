@@ -2,11 +2,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Shortener.Application.Url.Commands.CreateUrl;
-using Shortener.Application.Url.Commands.DeleteUrl;
-using Shortener.Application.Url.Queries.FindUrlById;
-using Shortener.Application.Url.Queries.FindUrlByShortUrl;
-using Shortener.Application.Url.Queries.GetTopUrls;
+using Shortener.Application.Urls.Commands.CreateUrl;
+using Shortener.Application.Urls.Commands.DeleteUrl;
+using Shortener.Application.Urls.Queries.FindUrlById;
+using Shortener.Application.Urls.Queries.FindUrlByShortUrl;
+using Shortener.Application.Urls.Queries.GetTopUrls;
 
 namespace Shortener.Presentation.Controllers;
 

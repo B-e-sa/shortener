@@ -1,0 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Shortener.Domain.Entities;
+
+namespace Shortener.Application.Common.Interfaces;
+
+public interface IAppDbContext
+{
+    DbSet<User> Users { get; }
+
+    DbSet<Domain.Entities.Url> Urls { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+}

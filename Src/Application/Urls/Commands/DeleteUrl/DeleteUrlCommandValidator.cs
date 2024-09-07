@@ -1,7 +1,7 @@
 using FluentValidation;
 using Shortener.Application.Common;
 
-namespace Shortener.Application.Url.Commands.DeleteUrl;
+namespace Shortener.Application.Urls.Commands.DeleteUrl;
 
 public class DeleteUrlCommandValidator : AbstractValidator<DeleteUrlCommand>
 {
