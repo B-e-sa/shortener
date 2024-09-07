@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Shortener.Infrastructure;
+using Shortener.Infrastructure.Data;
 using Testcontainers.PostgreSql;
 
 namespace Shortener.Tests.Application.FunctionalTests.Abstractions;

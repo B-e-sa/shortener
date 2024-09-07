@@ -4,6 +4,7 @@ using Shortener.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shortener.Infrastructure;
+using Shortener.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    await app.InitialiseDatabaseAsync();
 }
 
 app.UseCors("MyPolicies");

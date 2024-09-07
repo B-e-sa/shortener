@@ -1,4 +1,4 @@
-using Shortener.Application.Url.Commands.CreateUrl;
+using Shortener.Application.Urls.Commands.CreateUrl;
 
 namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
 

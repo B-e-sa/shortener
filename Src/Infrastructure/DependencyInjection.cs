@@ -16,14 +16,12 @@ public static class DependencyInjection
 
         Guard.Against.Null(connectionString, message: "Connection string 'Database' not found.");
 
-        services.AddDbContext<AppDbContext>((sp, options) =>
+        services.AddDbContext<AppDbContext>(options =>
         {
-            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
             options.UseNpgsql(connectionString);
         });
 
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
-
         services.AddScoped<AppDbContextInitialiser>();
 
         return services;

@@ -3,11 +3,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>Shortener.Application</RootNamespace>
         <AssemblyName>Shortener.Application</AssemblyName>
+        <UserSecretsId>60f7b9e3-74e4-4c26-9c4f-5909c69698b0</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Ardalis.GuardClauses" Version="4.6.0" />
-        <PackageReference Include="MediatR"  Version="12.4.0" />
+        <PackageReference Include="MediatR" Version="12.4.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
         <PackageReference Include="FluentValidation" Version="11.9.2" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />

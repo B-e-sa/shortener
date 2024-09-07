@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Shortener.Infrastructure;
+using Shortener.Infrastructure.Data;
 
 namespace Shortener.Tests.Application.FunctionalTests.Abstractions;
 
