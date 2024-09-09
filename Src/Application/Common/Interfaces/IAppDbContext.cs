@@ -7,7 +7,7 @@ public interface IAppDbContext
 {
     DbSet<User> Users { get; }
 
-    DbSet<Domain.Entities.Url> Urls { get; }
+    DbSet<Url> Urls { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
