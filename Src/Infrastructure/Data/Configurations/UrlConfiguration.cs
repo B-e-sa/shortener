@@ -10,8 +10,5 @@ public class UrlConfiguration : IEntityTypeConfiguration<Url>
     {
         builder.Property(u => u.Visits)
             .HasDefaultValue(0);
-
-        builder.Property(u => u.CreatedAt)
-            .HasDefaultValueSql("now()");
     }
 }
