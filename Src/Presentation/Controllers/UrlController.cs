@@ -10,7 +10,7 @@ using Shortener.Application.Urls.Queries.GetTopUrls;
 
 namespace Shortener.Presentation.Controllers;
 
-public class UrlController() : ApiController
+public class UrlController : ApiController
 {
     [HttpPost]
     public async Task<IActionResult> CreateUrl(
