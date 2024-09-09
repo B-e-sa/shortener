@@ -17,11 +17,14 @@ class CreateUserCommandHandler(IAppDbContext context) : IRequestHandler<CreateUs
 
     public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
+        string hash = BCrypt.Net.BCrypt.HashPassword(request.Password, salt);
+
         var newUser = new User
         {
             Email = request.Email,
             Username = request.Username,
-            Password = request.Password,
+            Password = hash,
         };
 
         _context.Users.Add(newUser);
