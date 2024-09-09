@@ -1,6 +1,7 @@
 @url = http://localhost:5229
 
-### CREATE URL
+############# URLS ################
+### CREATE
 POST {{url}}/api/url
 content-type: application/json
 
@@ -9,7 +10,7 @@ content-type: application/json
     "title": "Jooje"
 }
 
-### FIND BY URL
+### FIND BY SHORT URL
 GET {{url}}/api/url/qDJo HTTP/1.1
 
 ### GET TOP 10 URL
@@ -19,7 +20,18 @@ GET {{url}}/api/url HTTP/1.1
 
 GET {{url}}/api/url/find/23 HTTP/1.1
 
-### DELETE URL
+### DELETE
 
 DELETE {{url}}/api/url/24 HTTP/1.1
 content-type: application/json
+
+############# USERS ###############
+
+POST {{url}}/api/user
+content-type: application/json
+
+{
+    "Username": "Hello!",
+    "Email": "joaospereira963@gmail.com",
+    "Password": "TestPassword87!"
+}

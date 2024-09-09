@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shortener.Infrastructure;
 using Shortener.Infrastructure.Data;
+using Shortener.Web.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,10 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.ConfigureOptions<JwtSetup>();
+builder.Services.ConfigureOptions<JwtBearerSetup>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -41,7 +46,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("MyPolicies");
+
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

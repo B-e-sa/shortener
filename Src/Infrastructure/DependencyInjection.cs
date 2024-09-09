@@ -1,11 +1,15 @@
 using Ardalis.GuardClauses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Application.Users.Abstractions;
+using Shortener.Infrastructure.Authentication.Jwt;
 using Shortener.Infrastructure.Data;
 using Shortener.Infrastructure.Data.Interceptors;
+using Shortener.Infrastructure.Encryption;
 
 namespace Shortener.Infrastructure;
 
@@ -26,8 +30,14 @@ public static class DependencyInjection
                 .AddInterceptors(sp.GetService<ISaveChangesInterceptor>());
         });
 
-        services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
+        services.AddScoped<IAppDbContext, AppDbContext>();
         services.AddScoped<AppDbContextInitialiser>();
+
+        services.AddScoped<IEncryptionProvider, EncryptionProvider>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
 
         return services;
     }
