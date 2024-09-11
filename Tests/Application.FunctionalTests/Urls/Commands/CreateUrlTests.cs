@@ -4,17 +4,13 @@ namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
 
 public class CreateUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {
-    private readonly Helper helper = new("url");
+    private readonly UrlHelper helper = new();
 
     [Fact]
     public async Task Should_ReturnCreated_WhenRequestIsValid()
     {
         // Arrange
-        var url = new CreateUrlCommand()
-        {
-            Title = "New Url",
-            Url = "https://www.google.com"
-        };
+        var url = helper.GenerateValidUrl();
 
         // Act
         var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
@@ -24,26 +20,22 @@ public class CreateUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctiona
         createdRes.StatusCode.Should().Be(HttpStatusCode.Created);
 
         var foundRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/{createdBody.ShortUrl}");
-        var expectedValues = new[]
-        {
-                HttpStatusCode.Redirect,
-                HttpStatusCode.OK
-            };
-        foundRes.StatusCode.Should().BeOneOf(expectedValues);
+        foundRes.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
     public async Task Should_ReturnBadRequest_WhenTitleIsInvalid()
     {
         // Arrange
-        var url = new CreateUrlCommand
+        var url = helper.GenerateValidUrl();
+        CreateUrlCommand invalidUrl = new()
         {
             Title = "",
-            Url = "https://www.google.com"
+            Url = url.Url
         };
 
         // Act
-        var res = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
+        var res = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), invalidUrl);
 
         // Assert
         res.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -53,14 +45,15 @@ public class CreateUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctiona
     public async Task Should_ReturnBadRequest_WhenUrlIsInvalid()
     {
         // Arrange
-        var url = new CreateUrlCommand
+        var url = helper.GenerateValidUrl();
+        CreateUrlCommand invalidUrl = new()
         {
-            Title = "New Title",
-            Url = "www.google.com"
+            Title = url.Title,
+            Url = "invalid-url.com"
         };
 
         // Act
-        var res = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
+        var res = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), invalidUrl);
 
         // Assert
         res.StatusCode.Should().Be(HttpStatusCode.BadRequest);

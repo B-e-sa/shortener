@@ -1,20 +1,14 @@
-using Shortener.Application.Urls.Commands.CreateUrl;
-
 namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
 
 public class FindUrlByIdTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {
-    private readonly Helper helper = new("url");
+    private readonly UrlHelper helper = new();
 
     [Fact]
     public async Task Should_ReturnOk_WhenUrlExists()
     {
         // Arrange
-        var url = new CreateUrlCommand()
-        {
-            Title = "New Url",
-            Url = "https://www.google.com"
-        };
+        var url = helper.GenerateValidUrl();
 
         var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
         var createdBody = await helper.DeserializeResponse<Url>(createdRes);
@@ -25,7 +19,7 @@ public class FindUrlByIdTests(FunctionalTestWebAppFactory factory) : BaseFunctio
         // Assert
         var foundBody = await helper.DeserializeResponse<Url>(foundRes);
         foundRes.StatusCode.Should().Be(HttpStatusCode.OK);
-        foundBody.Title.Should().Be("New Url");
+        foundBody.Title.Should().Be(url.Title);
     }
 
     [Fact]

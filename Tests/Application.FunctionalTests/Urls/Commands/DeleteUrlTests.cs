@@ -1,20 +1,14 @@
-using Shortener.Application.Urls.Commands.CreateUrl;
-
 namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
 
 public class DeleteUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {
-    private readonly Helper helper = new("url");
+    private readonly UrlHelper helper = new();
 
     [Fact]
     public async Task Should_ReturnOk_WhenUrlExists()
     {
         // Arrange
-        var url = new CreateUrlCommand()
-        {
-            Title = "New Url",
-            Url = "https://www.google.com"
-        };
+        var url = helper.GenerateValidUrl();
 
         var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
         var createdbody = await helper.DeserializeResponse<Url>(createdRes);

@@ -1,20 +1,14 @@
-using Shortener.Application.Urls.Commands.CreateUrl;
-
 namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
 
 public class VisitUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {
-    private readonly Helper helper = new("url");
+    private readonly UrlHelper helper = new();
 
     [Fact]
-    public async Task Should_RedirectAndIncreaseVisitCount_WhenUrlExists()
+    public async Task Should_ReturnAndIncreaseVisitCount_WhenUrlExists()
     {
         // Arrange
-        var url = new CreateUrlCommand()
-        {
-            Title = "New Url",
-            Url = "https://www.google.com"
-        };
+        var url = helper.GenerateValidUrl();
 
         var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
         var createdBody = await helper.DeserializeResponse<Url>(createdRes);
@@ -25,12 +19,7 @@ public class VisitUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctional
         var foundBody = await helper.DeserializeResponse<Url>(foundRes);
 
         // Assert
-        var expectedValues = new[]
-        {
-                HttpStatusCode.Redirect,
-                HttpStatusCode.OK
-            };
-        foundRes.StatusCode.Should().BeOneOf(expectedValues);
+        foundRes.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
         foundBody?.Visits.Should().Be(1);
     }
 
