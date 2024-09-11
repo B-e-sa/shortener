@@ -18,7 +18,6 @@ public class DeleteUserCommandHandler(IAppDbContext context) : IRequestHandler<D
         Guard.Against.NotFound(req.Id, entity);
 
         _context.Users.Remove(entity);
-
         await _context.SaveChangesAsync(cancellationToken);
     }
 };
