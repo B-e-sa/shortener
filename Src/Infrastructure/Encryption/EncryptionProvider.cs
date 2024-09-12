@@ -3,7 +3,7 @@ using Shortener.Domain.Entities;
 
 namespace Shortener.Infrastructure.Encryption
 {
-    internal class EncryptionProvider : IEncryptionProvider
+    public sealed class EncryptionProvider : IEncryptionProvider
     {
         public string Hash(string str)
         {
