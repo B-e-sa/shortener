@@ -1,6 +1,7 @@
 using Ardalis.GuardClauses;
 using MediatR;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions.Urls;
 
 namespace Shortener.Application.Urls.Queries.FindUrlById;
 
@@ -14,9 +15,8 @@ internal sealed class FindUrlByIdQueryHandler(IAppDbContext context) : IRequestH
         FindUrlByIdQuery req,
         CancellationToken cancellationToken)
     {
-        var foundUrl = await _context.Urls.FindAsync([req.Id], cancellationToken: cancellationToken);
-
-        Guard.Against.NotFound(req.Id, foundUrl);
+        var foundUrl = await _context.Urls.FindAsync([req.Id], cancellationToken: cancellationToken)
+        ?? throw new UrlNotFoundException();
 
         return foundUrl;
     }

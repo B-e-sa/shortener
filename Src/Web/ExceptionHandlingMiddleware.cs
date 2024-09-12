@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Shortener.Application.Common.Exceptions;
+using Shortener.Domain.Common.Exceptions.Base;
 
 namespace Shortener.Web
 {
@@ -33,12 +35,13 @@ namespace Shortener.Web
 
             httpContext.Response.StatusCode = exception switch
             {
-                ValidationException => StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
+                UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+                ValidationException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError
             };
 
-            var errors = Array.Empty<ApiError>();
+            ApiError[] errors = null;
 
             if (exception is ValidationException validationException)
             {
@@ -49,12 +52,16 @@ namespace Shortener.Web
                     .ToArray();
             }
 
-            var response = new
+            var response = new Dictionary<string, object>
             {
-                status = httpContext.Response.StatusCode,
-                message = exception.Message,
-                errors
+                { "status", httpContext.Response.StatusCode },
+                { "message", exception.Message }
             };
+
+            if (errors != null && errors.Length > 0)
+            {
+                response["errors"] = errors;
+            }
 
             await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
         }

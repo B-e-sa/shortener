@@ -1,7 +1,7 @@
-using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions.Urls;
 
 namespace Shortener.Application.Urls.Queries.FindUrlByShortUrl;
 
@@ -15,9 +15,8 @@ public class FindUrlByShortUrlQueryHandler(IAppDbContext context) : IRequestHand
     {
         var foundUrl = await _context.Urls
             .Where(u => u.ShortUrl == req.ShortUrl)
-            .FirstOrDefaultAsync(cancellationToken);
-
-        Guard.Against.NotFound(req.ShortUrl, foundUrl);
+            .FirstOrDefaultAsync(cancellationToken)
+            ?? throw new UrlNotFoundException();
 
         foundUrl.Visits += 1;
         _context.Urls.Update(foundUrl);

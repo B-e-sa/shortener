@@ -1,6 +1,8 @@
 using Ardalis.GuardClauses;
 using MediatR;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions;
+using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Users.Commands.DeleteUser;
 
@@ -13,9 +15,8 @@ public class DeleteUserCommandHandler(IAppDbContext context) : IRequestHandler<D
     public async Task Handle(DeleteUserCommand req, CancellationToken cancellationToken)
     {
         var entity = await _context.Users
-            .FindAsync([req.Id], cancellationToken);
-
-        Guard.Against.NotFound(req.Id, entity);
+            .FindAsync([req.Id], cancellationToken)
+            ?? throw new UserNotFoundException();
 
         _context.Users.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);

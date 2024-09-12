@@ -1,6 +1,7 @@
 using Ardalis.GuardClauses;
 using MediatR;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions.Urls;
 
 namespace Shortener.Application.Urls.Commands.DeleteUrl;
 
@@ -13,9 +14,8 @@ public class DeleteUrlCommandHandler(IAppDbContext context) : IRequestHandler<De
     public async Task Handle(DeleteUrlCommand req, CancellationToken cancellationToken)
     {
         var entity = await _context.Urls
-            .FindAsync([req.Id], cancellationToken);
-
-        Guard.Against.NotFound(req.Id, entity);
+            .FindAsync([req.Id], cancellationToken)
+            ?? throw new UrlNotFoundException();
 
         _context.Urls.Remove(entity);
 

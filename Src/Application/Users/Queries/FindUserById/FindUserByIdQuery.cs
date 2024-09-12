@@ -1,6 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using MediatR;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions;
+using Shortener.Domain.Common.Exceptions.Users;
 using Shortener.Domain.Entities;
 
 namespace Shortener.Application.Users.Queries.FindUserById;
@@ -23,9 +25,8 @@ internal sealed class FindUserByIdQueryHandler(IAppDbContext context)
         FindUserByIdQuery req,
         CancellationToken cancellationToken)
     {
-        var foundUser = await _context.Users.FindAsync([req.Id], cancellationToken: cancellationToken);
-
-        Guard.Against.NotFound(req.Id, foundUser);
+        var foundUser = await _context.Users.FindAsync([req.Id], cancellationToken: cancellationToken) 
+            ?? throw new UserNotFoundException();
 
         var res = new FindUserByIdQueryResponse(
             foundUser.Id,
