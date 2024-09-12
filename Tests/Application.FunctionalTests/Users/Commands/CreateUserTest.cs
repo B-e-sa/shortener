@@ -1,5 +1,4 @@
-﻿using Bogus;
-using Shortener.Application.Users.Commands.CreateUser;
+﻿using Shortener.Application.Users.Commands.CreateUser;
 
 namespace Shortener.Tests.Application.FunctionalTests.Users.Commands;
 
@@ -18,7 +17,7 @@ public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunction
 
         // Assert
         createdRes.StatusCode.Should().Be(HttpStatusCode.Created);
-        createdRes.Content.Should().BeOfType<string>();
+        createdRes.Content.Should().BeOfType<StreamContent>();
     }
 
     [Fact]
@@ -28,7 +27,7 @@ public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunction
         var user = helper.GenerateValidUser();
         CreateUserCommand invalidUser = new()
         {
-            Email = "invalid@email.com",
+            Email = "invalidemail.com",
             Password = user.Password,
             Username = user.Username
         };
