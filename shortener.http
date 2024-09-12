@@ -6,12 +6,12 @@ POST {{url}}/api/url
 content-type: application/json
 
 {
-    "url": "https://google.com",
+    "url": "https://arnaldo.info",
     "title": "Jooje"
 }
 
 ### FIND BY SHORT URL
-GET {{url}}/api/url/qDJo HTTP/1.1
+GET {{url}}/api/url/GqER HTTP/1.1
 
 ### GET TOP 10 URL
 GET {{url}}/api/url HTTP/1.1
@@ -31,7 +31,17 @@ POST {{url}}/api/user
 content-type: application/json
 
 {
-    "Username": "Hello!",
-    "Email": "joaospereira963@gmail.com",
-    "Password": "TestPassword87!"
+    "Username": "Kailee.Klocko",
+    "Email": "invalid@email",
+    "Password": "ValidPassw0rd!"
 }
+
+### 
+
+GET {{url}}/api/user/find/28
+content-type: application/json
+
+###
+
+DELETE {{url}}/api/user/28
+content-type: application/json
