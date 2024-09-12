@@ -12,7 +12,7 @@ namespace Shortener.Tests.Application.FunctionalTests.Users
             {
                 Email = faker.Internet.Email(),
                 Username = faker.Random.String(5, 24),
-                Password = faker.Internet.Password()
+                Password = "ValidPassw0rd!"
             };
         }
     }
