@@ -19,8 +19,6 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("Database");
 
-        Guard.Against.Null(connectionString, message: "Connection string 'Database' not found.");
-
         services.AddScoped<ISaveChangesInterceptor, BaseEntityInterceptor>();
 
         services.AddDbContext<AppDbContext>((sp, options) =>

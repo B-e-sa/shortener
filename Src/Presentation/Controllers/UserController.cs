@@ -4,6 +4,7 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Application.Users.Commands.CreateUser;
 using Shortener.Application.Users.Commands.DeleteUser;
+using Shortener.Application.Users.Commands.Login;
 using Shortener.Application.Users.Queries.FindUserById;
 
 namespace Shortener.Presentation.Controllers;
@@ -47,5 +48,18 @@ public class UserController : ApiController
         var foundUser = await Sender.Send(query, cancellationToken);
 
         return Ok(foundUser);
+    }
+
+    [HttpPost("auth")]
+    public async Task<IActionResult> Login(
+        [FromBody] LoginCommand req,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = req.Adapt<LoginCommand>();
+
+        var token = await Sender.Send(command, cancellationToken);
+
+        return Ok(token);
     }
 }

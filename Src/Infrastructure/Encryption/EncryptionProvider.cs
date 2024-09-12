@@ -1,5 +1,4 @@
 ﻿using Shortener.Application.Users.Abstractions;
-using Shortener.Domain.Entities;
 
 namespace Shortener.Infrastructure.Encryption
 {
@@ -10,5 +9,10 @@ namespace Shortener.Infrastructure.Encryption
             string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
             return BCrypt.Net.BCrypt.HashPassword(str, salt);
         }
+        public bool Verify(string str, string hash)
+        {
+            return BCrypt.Net.BCrypt.Verify(str, hash);
+        }
+
     }
 }
