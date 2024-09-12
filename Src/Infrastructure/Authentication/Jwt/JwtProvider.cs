@@ -16,33 +16,29 @@ namespace Shortener.Infrastructure.Authentication.Jwt
 
         public string Generate(User user)
         {
-            if (string.IsNullOrEmpty(_options.Secret))
+            var claims = new Claim[]
             {
-                throw new ArgumentNullException(nameof(_options.Secret), "JWT Secret is not set.");
-            }
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Email, user.Email)
+         };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var signingCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_options.Secret)),
+                SecurityAlgorithms.HmacSha256);
 
-            var claims = new ClaimsIdentity(
-                [
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
-                ]);
+            var token = new JwtSecurityToken(
+                _options.Issuer,
+                _options.Audience,
+                claims,
+                null,
+                DateTime.UtcNow.AddDays(7),
+                signingCredentials);
 
-            var signinCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret)),
-                    SecurityAlgorithms.HmacSha256Signature);
+            string tokenValue = new JwtSecurityTokenHandler()
+                .WriteToken(token);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = claims,
-                SigningCredentials = signinCredentials,
-                Issuer = _options.Issuer,
-                Audience = _options.Audience,
-                Expires = DateTime.UtcNow.AddDays(7),
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return tokenValue;
         }
     }
 }
