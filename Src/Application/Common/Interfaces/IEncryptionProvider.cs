@@ -1,4 +1,4 @@
-﻿namespace Shortener.Application.Users.Abstractions
+﻿namespace Shortener.Application.Common.Interfaces
 {
     public interface IEncryptionProvider
     {
