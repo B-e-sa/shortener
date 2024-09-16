@@ -18,11 +18,36 @@ public class UrlController : ApiController
         CancellationToken cancellationToken
     )
     {
+        var token = HttpContext
+            .Request
+            .Headers
+            .Authorization
+            .ToString()
+            .Replace("Bearer ", "");
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            req = req with { Token = token };
+        }
+
         var command = req.Adapt<CreateUrlCommand>();
 
         var urlId = await Sender.Send(command, cancellationToken);
 
         return CreatedAtAction(nameof(CreateUrl), new { urlId }, urlId);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUrl(
+        int id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new DeleteUrlCommand(id);
+
+        await Sender.Send(command, cancellationToken);
+
+        return Ok(id);
     }
 
     [HttpGet("find/{id}")]
@@ -61,18 +86,5 @@ public class UrlController : ApiController
         var foundUrl = await Sender.Send(query, cancellationToken);
 
         return Ok(foundUrl);
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUrl(
-        int id,
-        CancellationToken cancellationToken
-    )
-    {
-        var command = new DeleteUrlCommand(id);
-
-        await Sender.Send(command, cancellationToken);
-
-        return Ok(id);
     }
 }
