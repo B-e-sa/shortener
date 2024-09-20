@@ -32,6 +32,7 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureOptions<MailingSetup>();
 
 builder.Services.ConfigureOptions<JwtSetup>();
 builder.Services.ConfigureOptions<JwtBearerSetup>();
