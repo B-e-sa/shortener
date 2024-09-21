@@ -4,12 +4,12 @@ using Shortener.Application.Common.Interfaces;
 using Shortener.Domain.Common.Exceptions.EmailVerifications;
 using Shortener.Domain.Common.Exceptions.Users;
 
-namespace Shortener.Application.EmailVerifications.Commands;
+namespace Shortener.Application.EmailVerifications.Commands.VerifyEmail;
 
 public record VerifyEmailCommand(string Code, string Token) : IRequest;
 
 class VerifyEmailCommandHandler(
-    IAppDbContext context, 
+    IAppDbContext context,
     IJwtProvider jwtProvider) : IRequestHandler<VerifyEmailCommand>
 {
     private readonly IAppDbContext _context = context;
