@@ -23,10 +23,12 @@ internal sealed class FindUserByIdQueryHandler(IAppDbContext context)
         FindUserByIdQuery req,
         CancellationToken cancellationToken)
     {
-        var foundUser = await _context.Users.FindAsync([req.Id], cancellationToken: cancellationToken) 
+        var foundUser = await _context
+            .Users
+            .FindAsync([req.Id], cancellationToken: cancellationToken) 
             ?? throw new UserNotFoundException();
 
-        var res = new FindUserByIdQueryResponse(
+        FindUserByIdQueryResponse res = new (
             foundUser.Id,
             foundUser.Email,
             foundUser.Urls,

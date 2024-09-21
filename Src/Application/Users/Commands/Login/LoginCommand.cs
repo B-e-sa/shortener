@@ -1,10 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Application.Users.Abstractions;
 using FluentValidation;
 using Shortener.Domain.Common.Exceptions.Users;
-using Shortener.Domain.Common.Exceptions;
 
 namespace Shortener.Application.Users.Commands.Login;
 

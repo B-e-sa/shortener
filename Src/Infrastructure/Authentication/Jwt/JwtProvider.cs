@@ -11,7 +11,7 @@ using System.Linq;
 namespace Shortener.Infrastructure.Authentication.Jwt
 {
 
-    internal sealed class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
+    public sealed class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
     {
         private readonly JwtOptions _options = options.Value;
         private readonly JwtSecurityTokenHandler handler = new();

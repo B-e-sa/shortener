@@ -1,4 +1,4 @@
-﻿using Shortener.Application.Users.Abstractions;
+﻿using Shortener.Application.Common.Interfaces;
 
 namespace Shortener.Infrastructure.Encryption
 {
