@@ -2,7 +2,7 @@
 
 namespace Shortener.Presentation.Common
 {
-    public sealed class GetBearerToken
+    public static class GetBearerToken
     {
         public static string FromHeader(HttpContext context)
         {

@@ -1,28 +1,34 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shortener.Application.EmailVerifications.Commands;
+using Shortener.Application.EmailVerifications.Commands.CreateEmailVerification;
+using Shortener.Application.EmailVerifications.Commands.VerifyEmail;
 using Shortener.Application.EmailVerifications.Queries.FindVerificationByUserId;
 using Shortener.Presentation.Common;
 
 namespace Shortener.Presentation.Controllers;
 
-[Route("verification")]
-public class EmailVerificationController : ApiController
+public class VerificationController : ApiController
 {
-    [HttpPost("verify")]
-    public async Task<IActionResult> Verify(
-        [FromBody] VerifyEmailCommand req,
-        CancellationToken cancellationToken
-    )
+    [HttpPost]
+    public async Task<IActionResult> Create(CancellationToken cancellationToken)
     {
         var token = GetBearerToken.FromHeader(HttpContext);
 
-        req = req with { Token = token };
+        var command = new { Token=token }.Adapt<CreateEmailVerificationCommand>();
 
-        var command = req.Adapt<VerifyEmailCommand>();
+        var emailVerificationId = await Sender.Send(command, cancellationToken);
+
+        return CreatedAtAction(nameof(Create), new { emailVerificationId }, emailVerificationId);
+    }
+
+    [HttpPost("verify")]
+    public async Task<IActionResult> Verify(CancellationToken cancellationToken)
+    {
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = new { Token = token }.Adapt<VerifyEmailCommand>();
 
         await Sender.Send(command, cancellationToken);
 
@@ -37,9 +43,7 @@ public class EmailVerificationController : ApiController
     {
         var token = GetBearerToken.FromHeader(HttpContext);
 
-        req = req with { Token = token };
-
-        var command = req.Adapt<FindVerificationByUserIdQuery>();
+        var command = new { Token = token }.Adapt<FindVerificationByUserIdQuery>();
 
         await Sender.Send(command, cancellationToken);
 
