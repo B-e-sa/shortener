@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Shortener.Application.Common.Interfaces;
+using System.Threading.Tasks;
 
 namespace Shortener.Infrastructure.Mailing
 {
@@ -9,10 +10,10 @@ namespace Shortener.Infrastructure.Mailing
     {
         private readonly MailingOptions _options = options.Value;
 
-        public void SendVerificationCode(string username, string userEmail, string Code)
+        public async Task SendVerificationCode(string username, string userEmail, string Code)
         {
             var email = new MimeMessage();
-            email.From.Add(new MailboxAddress(_options.Name, _options.Email));
+            email.From.Add(new MailboxAddress(_options.Username, _options.Email));
             email.To.Add(new MailboxAddress(username, userEmail));
 
             email.Subject = "Confirmation code";
@@ -28,7 +29,7 @@ namespace Shortener.Infrastructure.Mailing
                                 <div>
                                     <p>This is your confirmation code:</p>
                                     <div style='margin: auto; width: 50%; border: 2px solid black; padding: 20px; text-align: center;'>
-                                    {123456}
+                                    {Code}
                                     </div>
                                 </div>
                                 <p>If you weren't the one who made this request, just ignore this email.</p>
@@ -39,13 +40,11 @@ namespace Shortener.Infrastructure.Mailing
 
             email.Body = bodyBuilder.ToMessageBody();
 
-            using (var smtp = new SmtpClient())
-            {
-                smtp.Connect(_options.Smtp, _options.Port, false);
-                smtp.Authenticate(_options.Email, _options.Password);
-                smtp.Send(email);
-                smtp.Disconnect(true);
-            }
+            using var smtp = new SmtpClient();
+            smtp.Connect(_options.Smtp, _options.Port, false);
+            smtp.Authenticate(_options.Username, _options.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
         }
     }
 }
