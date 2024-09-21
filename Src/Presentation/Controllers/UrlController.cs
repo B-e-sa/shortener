@@ -7,6 +7,7 @@ using Shortener.Application.Urls.Commands.DeleteUrl;
 using Shortener.Application.Urls.Queries.FindUrlById;
 using Shortener.Application.Urls.Queries.FindUrlByShortUrl;
 using Shortener.Application.Urls.Queries.GetTopUrls;
+using Shortener.Presentation.Common;
 
 namespace Shortener.Presentation.Controllers;
 
@@ -18,12 +19,7 @@ public class UrlController : ApiController
         CancellationToken cancellationToken
     )
     {
-        var token = HttpContext
-            .Request
-            .Headers
-            .Authorization
-            .ToString()
-            .Replace("Bearer ", "");
+        var token = GetBearerToken.FromHeader(HttpContext);
 
         if (!string.IsNullOrEmpty(token))
         {
