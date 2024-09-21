@@ -13,24 +13,12 @@ public record CreateUrlCommand : IRequest<Url>
     public string? Token { get; init; }
 }
 
-class CreateUrlCommandHandler(IAppDbContext context, IJwtProvider jwtProvider) : IRequestHandler<CreateUrlCommand, Url>
+public class CreateUrlCommandHandler(
+    IAppDbContext context, 
+    IJwtProvider jwtProvider) : IRequestHandler<CreateUrlCommand, Url>
 {
     private readonly IAppDbContext _context = context;
     private readonly IJwtProvider _jwtProvider = jwtProvider;
-
-    private static string GenerateShortUrl()
-    {
-        string shortUrl = "";
-        string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGIJKLMNOPQRSTUVWXYZ0123456789";
-
-        Random random = new();
-        for (int i = 0; i < 4; i++)
-        {
-            int index = random.Next(0, chars.Length);
-            shortUrl += chars[index];
-        }
-        return shortUrl;
-    }
 
     public async Task<Url> Handle(CreateUrlCommand req, CancellationToken cancellationToken)
     {
@@ -38,7 +26,6 @@ class CreateUrlCommandHandler(IAppDbContext context, IJwtProvider jwtProvider) :
         {
             Title = req.Title,
             OriginalUrl = req.Url,
-            ShortUrl = GenerateShortUrl(),
         };
 
         if (req.Token != null)
@@ -47,8 +34,10 @@ class CreateUrlCommandHandler(IAppDbContext context, IJwtProvider jwtProvider) :
             {
                 var payload = _jwtProvider.Read(req.Token);
 
-                var foundUser = await _context.Users.FindAsync([payload.Id], cancellationToken: cancellationToken)
-                ?? throw new UserNotFoundException();
+                var foundUser = await _context
+                    .Users
+                    .FindAsync([payload.Id], cancellationToken)
+                    ?? throw new UserNotFoundException();
 
                 newUrl.User = foundUser;
             }

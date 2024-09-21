@@ -6,7 +6,7 @@ namespace Shortener.Domain.Entities;
 public class Url : BaseEntity
 {
     public string OriginalUrl { get; set; }
-    public string ShortUrl { get; set; }
+    public string ShortUrl { get; set; } = CodeGenerator.Alphanumeric(4);
     public string Title { get; set; }
     public int Visits { get; set; }
     public int? UserId { get; set; }

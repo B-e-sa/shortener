@@ -1,4 +1,5 @@
 using MediatR;
+using Shortener.Application.Common;
 using Shortener.Application.Common.Interfaces;
 using Shortener.Domain.Entities;
 
@@ -23,20 +24,6 @@ class CreateUserCommandHandler(
     private readonly IEncryptionProvider _encryption = encryption;
     private readonly IMailingProvider _mailingProvider = mailingProvider;
 
-    private static string GenerateVerificationCode()
-    {
-        string code = "";
-        string chars = "0123456789";
-
-        Random random = new();
-        for (int i = 0; i < 6; i++)
-        {
-            int index = random.Next(0, chars.Length);
-            code += chars[index];
-        }
-        return code;
-    }
-
     public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         User user = new() 
@@ -47,18 +34,19 @@ class CreateUserCommandHandler(
         };
 
         _context.Users.Add(user);
-        var code = GenerateVerificationCode();
 
         EmailVerification verification = new()
         {
-            Code = code,
             User = user
         };
 
         _context.EmailVerifications.Add(verification);
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _mailingProvider.SendVerificationCode(request.Username, request.Email, code);
+        await _mailingProvider.SendVerificationCode(
+            request.Username, 
+            request.Email, 
+            verification.Code);
 
         return _jwt.Generate(user);
     }
