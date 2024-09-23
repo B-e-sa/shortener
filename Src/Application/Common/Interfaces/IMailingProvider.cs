@@ -1,7 +1,6 @@
-﻿namespace Shortener.Application.Common.Interfaces
+﻿namespace Shortener.Application.Common.Interfaces;
+
+public interface IMailingProvider
 {
-    public interface IMailingProvider
-    {
-        Task SendVerificationCode(string username, string userEmail, string Code);
-    }
+    Task SendVerificationCode(string username, string userEmail, string Code);
 }

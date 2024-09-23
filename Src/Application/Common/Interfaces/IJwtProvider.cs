@@ -1,6 +1,4 @@
-﻿using Shortener.Domain.Entities;
-
-namespace Shortener.Application.Common.Interfaces;
+﻿namespace Shortener.Application.Common.Interfaces;
 
 public class ClaimDto
 {

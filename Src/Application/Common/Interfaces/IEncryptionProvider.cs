@@ -1,8 +1,7 @@
-﻿namespace Shortener.Application.Common.Interfaces
+﻿namespace Shortener.Application.Common.Interfaces;
+
+public interface IEncryptionProvider
 {
-    public interface IEncryptionProvider
-    {
-        string Hash(string str);
-        bool Verify(string str, string hash);
-    }
+    string Hash(string str);
+    bool Verify(string str, string hash);
 }

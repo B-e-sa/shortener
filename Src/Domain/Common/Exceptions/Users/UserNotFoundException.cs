@@ -1,6 +1,5 @@
-﻿namespace Shortener.Domain.Common.Exceptions.Users;
+﻿using Shortener.Domain.Common.Exceptions.Base;
 
-public class UserNotFoundException()
-    : EntityNotFoundException("User was not found.")
-{
-}
+namespace Shortener.Domain.Common.Exceptions.Users;
+
+public class UserNotFoundException() : NotFoundException("User was not found.");

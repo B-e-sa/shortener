@@ -3,9 +3,9 @@ using Shortener.Application.Common;
 
 namespace Shortener.Application.Users.Commands.DeleteUser;
 
-public class DeleteUserByidQueryValidator : AbstractValidator<DeleteUserCommand>
+public class DeleteUserByIdQueryValidator : AbstractValidator<DeleteUserCommand>
 {
-    public DeleteUserByidQueryValidator()
+    public DeleteUserByIdQueryValidator()
     {
         RuleFor(v => v.Id).SetValidator(new IdValidator());
     }

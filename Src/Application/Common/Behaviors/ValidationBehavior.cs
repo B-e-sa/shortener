@@ -4,12 +4,16 @@ using ValidationException = Shortener.Application.Common.Exceptions.ValidationEx
 
 namespace Shortener.Application.Common.Behaviors;
 
-public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) 
+    : IPipelineBehavior<TRequest, TResponse>
      where TRequest : notnull
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(
+        TRequest request, 
+        RequestHandlerDelegate<TResponse> next, 
+        CancellationToken cancellationToken)
     {
         if (_validators.Any())
         {

@@ -1,8 +1,4 @@
-﻿using System;
-
-namespace Shortener.Domain.Common.Exceptions.Users;
+﻿namespace Shortener.Domain.Common.Exceptions.Users;
 
 public class InvalidUserPasswordException() 
-    : UnauthorizedAccessException("User password does not match.")
-{
-}
+    : UnauthorizedAccessException("User password does not match.");

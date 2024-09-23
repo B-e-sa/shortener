@@ -3,9 +3,9 @@ using Shortener.Application.Common;
 
 namespace Shortener.Application.Users.Queries.FindUserById;
 
-public class FindUserByidQueryValidator : AbstractValidator<FindUserByIdQuery>
+public class FindUserByIdQueryValidator : AbstractValidator<FindUserByIdQuery>
 {
-    public FindUserByidQueryValidator()
+    public FindUserByIdQueryValidator()
     {
         RuleFor(v => v.Id).SetValidator(new IdValidator());
     }

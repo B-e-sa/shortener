@@ -4,13 +4,14 @@ using Shortener.Application.Common.Interfaces;
 
 namespace Shortener.Application.Urls.Queries.GetTopUrls;
 
-public record GetTopUrlsQuery() : IRequest<List<Domain.Entities.Url>>;
+public record GetTopUrlsQuery() : IRequest<List<Url>>;
 
-public class GetTopUrlsQueryHandler(IAppDbContext context) : IRequestHandler<GetTopUrlsQuery, List<Domain.Entities.Url>>
+public class GetTopUrlsQueryHandler(IAppDbContext context) 
+    : IRequestHandler<GetTopUrlsQuery, List<Url>>
 {
     private readonly IAppDbContext _context = context;
 
-    public async Task<List<Domain.Entities.Url>> Handle(GetTopUrlsQuery request, CancellationToken cancellationToken)
+    public async Task<List<Url>> Handle(GetTopUrlsQuery request, CancellationToken cancellationToken)
     {
 
         var oneWeekAgo = DateTime.UtcNow.AddDays(-7);

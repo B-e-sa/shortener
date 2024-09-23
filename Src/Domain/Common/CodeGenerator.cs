@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shortener.Domain.Common;
+﻿namespace Shortener.Domain.Common;
 
 public static class CodeGenerator
 {

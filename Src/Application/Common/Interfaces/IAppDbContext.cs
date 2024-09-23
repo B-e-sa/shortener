@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Shortener.Domain.Entities;
 
 namespace Shortener.Application.Common.Interfaces;
 

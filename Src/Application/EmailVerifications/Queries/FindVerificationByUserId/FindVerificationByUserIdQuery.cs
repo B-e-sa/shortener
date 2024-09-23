@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
 using Shortener.Domain.Common.Exceptions.EmailVerifications;
 using Shortener.Domain.Common.Exceptions.Users;
-using Shortener.Domain.Entities;
 
 namespace Shortener.Application.EmailVerifications.Queries.FindVerificationByUserId;
 

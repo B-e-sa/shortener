@@ -3,9 +3,9 @@ using Shortener.Application.Common;
 
 namespace Shortener.Application.Urls.Queries.FindUrlById;
 
-public class FindUrlByidQueryValidator : AbstractValidator<FindUrlByIdQuery>
+public class FindUrlByIdQueryValidator : AbstractValidator<FindUrlByIdQuery>
 {
-    public FindUrlByidQueryValidator()
+    public FindUrlByIdQueryValidator()
     {
         RuleFor(v => v.Id).SetValidator(new IdValidator());
     }

@@ -1,7 +1,5 @@
-using Ardalis.GuardClauses;
 using MediatR;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions;
 using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Users.Commands.DeleteUser;

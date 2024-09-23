@@ -2,7 +2,6 @@ using MediatR;
 using Shortener.Application.Common.Interfaces;
 using Shortener.Domain.Common.Exceptions;
 using Shortener.Domain.Common.Exceptions.Users;
-using Shortener.Domain.Entities;
 
 namespace Shortener.Application.Urls.Commands.CreateUrl;
 

@@ -2,7 +2,6 @@ using FluentValidation;
 
 namespace Shortener.Application.Urls.Commands.CreateUrl;
 
-
 public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
 {
     public CreateUrlCommandValidator()

@@ -6,8 +6,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
     public CreateUserCommandValidator()
     {
-        RuleFor(v => v.Email)
-            .EmailAddress();
+        RuleFor(v => v.Email).EmailAddress();
 
         RuleFor(v => v.Username)
             .MaximumLength(24)

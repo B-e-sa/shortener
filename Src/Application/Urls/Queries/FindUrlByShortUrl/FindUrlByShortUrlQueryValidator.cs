@@ -6,7 +6,6 @@ public class FindUrlByShortUrlQueryValidator : AbstractValidator<FindUrlByShortU
 {
     public FindUrlByShortUrlQueryValidator()
     {
-        RuleFor(v => v.ShortUrl)
-            .Length(4);
+        RuleFor(v => v.ShortUrl).Length(4);
     }
 }
