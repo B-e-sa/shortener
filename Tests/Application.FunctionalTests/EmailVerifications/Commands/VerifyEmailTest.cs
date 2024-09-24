@@ -17,6 +17,19 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         return await createdUserResponse.Content.ReadAsStringAsync();
     }
 
+    private async Task<EmailVerification> CreateEmailVerification(string token)
+    {
+        var authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var createVerificationReq = new HttpRequestMessage(HttpMethod.Post, verificationHelper.GetApiUrl());
+        createVerificationReq.Headers.Authorization = authorization;
+
+        var createVerificationRes = await HttpClient.SendAsync(createVerificationReq);
+
+        return await verificationHelper
+            .DeserializeResponse<EmailVerification>(createVerificationRes);
+    }
+
     [Fact]
     public async Task Should_VerifyUserEmail_WhenUserExists()
     {
@@ -24,13 +37,7 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         var token = await CreateUser();
         var authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        var createVerificationReq = new HttpRequestMessage(HttpMethod.Post, verificationHelper.GetApiUrl());
-        createVerificationReq.Headers.Authorization = authorization;
-        
-        var createVerificationRes = await HttpClient.SendAsync(createVerificationReq);
-
-        var emailVerification = await verificationHelper
-            .DeserializeResponse<EmailVerification>(createVerificationRes);
+        var emailVerification = await CreateEmailVerification(token);
 
         // Act
         var verifyReq = new HttpRequestMessage(HttpMethod.Post, $"{verificationHelper.GetApiUrl()}/verify")
@@ -42,7 +49,6 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         var verifyRes = await HttpClient.SendAsync(verifyReq);
 
         // Assert
-
         verifyRes.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var authenticationReq = new HttpRequestMessage(HttpMethod.Post, $"{userHelper.GetApiUrl()}/auth");
@@ -74,5 +80,26 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
 
         // Assert
         createdEmailVerificationRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Should_ReturnBadRequest_WhenVerificationCodeIsInvalid()
+    {
+        // Arrange
+        var token = await CreateUser();
+        var authorization = new AuthenticationHeaderValue("Bearer", token);
+        var invalidCode = 12345;
+
+        // Act
+        var verifyReq = new HttpRequestMessage(HttpMethod.Post, $"{verificationHelper.GetApiUrl()}/verify")
+        {
+            Content = JsonContent.Create(new { Code = invalidCode }),
+        };
+        verifyReq.Headers.Authorization = authorization;
+
+        var verifyRes = await HttpClient.SendAsync(verifyReq);
+
+        // Assert
+        verifyRes.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 } 
