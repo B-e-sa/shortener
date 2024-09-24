@@ -1,5 +1,4 @@
-﻿using Bogus;
-using Shortener.Application.Urls.Commands.CreateUrl;
+﻿using Shortener.Application.Urls.Commands.CreateUrl;
 
 namespace Shortener.Tests.Application.FunctionalTests.Urls
 {

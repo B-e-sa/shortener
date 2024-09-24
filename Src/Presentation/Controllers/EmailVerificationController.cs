@@ -1,11 +1,11 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Application.EmailVerifications.Commands.CreateEmailVerification;
 using Shortener.Application.EmailVerifications.Commands.VerifyEmail;
 using Shortener.Application.EmailVerifications.Queries.FindVerificationByUserId;
 using Shortener.Presentation.Common;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Shortener.Presentation.Controllers;
 
@@ -16,7 +16,7 @@ public class VerificationController : ApiController
     {
         var token = GetBearerToken.FromHeader(HttpContext);
 
-        var command = new { Token=token }.Adapt<CreateEmailVerificationCommand>();
+        var command = new { Token = token }.Adapt<CreateEmailVerificationCommand>();
 
         var emailVerificationId = await Sender.Send(command, cancellationToken);
 

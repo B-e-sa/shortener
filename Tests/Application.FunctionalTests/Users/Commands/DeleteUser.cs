@@ -1,5 +1,4 @@
-﻿using Shortener.Domain.Entities;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 
 namespace Shortener.Tests.Application.FunctionalTests.Users.Commands;
 

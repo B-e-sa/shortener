@@ -1,5 +1,4 @@
-﻿using Shortener.Application.Users.Commands.CreateUser;
-using Shortener.Application.Users.Commands.Login;
+﻿using Shortener.Application.Users.Commands.Login;
 
 namespace Shortener.Tests.Application.FunctionalTests.Users.Commands;
 

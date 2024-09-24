@@ -1,9 +1,6 @@
-using Newtonsoft.Json;
 using Shortener.Application.Urls.Commands.CreateUrl;
 using Shortener.Tests.Application.FunctionalTests.Users;
-using System;
 using System.Net.Http.Headers;
-using System.Text;
 
 namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
 

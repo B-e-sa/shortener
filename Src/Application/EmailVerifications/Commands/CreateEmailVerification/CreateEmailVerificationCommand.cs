@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Shortener.Application.Common;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions;
 using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.EmailVerifications.Commands.CreateEmailVerification;
