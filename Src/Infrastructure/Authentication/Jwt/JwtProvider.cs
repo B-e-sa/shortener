@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using Shortener.Application.Common.Interfaces;
 using System.Linq;
+using Shortener.Application.Common.Models;
 
 namespace Shortener.Infrastructure.Authentication.Jwt
 {
@@ -15,7 +16,6 @@ namespace Shortener.Infrastructure.Authentication.Jwt
     {
         private readonly JwtOptions _options = options.Value;
         private readonly JwtSecurityTokenHandler handler = new();
-
 
         public string Generate(User user)
         {
@@ -41,14 +41,14 @@ namespace Shortener.Infrastructure.Authentication.Jwt
             return handler.WriteToken(token);
         }
 
-        public ClaimDto Read(string token)
+        public ClaimDTO Read(string token)
         {
             var jwtToken = handler.ReadJwtToken(token);
 
             var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Email).Value;
             var id = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
 
-            return new ClaimDto()
+            return new ClaimDTO
             {
                 Email = email,
                 Id = int.Parse(id)
@@ -59,6 +59,11 @@ namespace Shortener.Infrastructure.Authentication.Jwt
         {
             try
             {
+                if(token is null)
+                {
+                    return false;
+                }
+
                 var jwtToken = handler.ReadJwtToken(token);
                 return jwtToken.ValidFrom < DateTime.UtcNow || jwtToken.ValidTo > DateTime.UtcNow;
             }

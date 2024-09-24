@@ -1,4 +1,5 @@
 using MediatR;
+using Shortener.Application.Common;
 using Shortener.Application.Common.Interfaces;
 using Shortener.Domain.Common.Exceptions;
 using Shortener.Domain.Common.Exceptions.Users;
@@ -13,11 +14,12 @@ public record CreateUrlCommand : IRequest<Url>
 }
 
 public class CreateUrlCommandHandler(
-    IAppDbContext context, 
-    IJwtProvider jwtProvider) : IRequestHandler<CreateUrlCommand, Url>
+    IAppDbContext context,
+    ITokenService tokenService
+    ) : IRequestHandler<CreateUrlCommand, Url>
 {
     private readonly IAppDbContext _context = context;
-    private readonly IJwtProvider _jwtProvider = jwtProvider;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task<Url> Handle(CreateUrlCommand req, CancellationToken cancellationToken)
     {
@@ -29,21 +31,14 @@ public class CreateUrlCommandHandler(
 
         if (req.Token != null)
         {
-            if(_jwtProvider.Validate(req.Token))
-            {
-                var payload = _jwtProvider.Read(req.Token);
+            var payload = _tokenService.GetPayload(req.Token);
 
-                var foundUser = await _context
-                    .Users
-                    .FindAsync([payload.Id], cancellationToken)
-                    ?? throw new UserNotFoundException();
+            var foundUser = await _context
+                .Users
+                .FindAsync([payload.Id], cancellationToken)
+                ?? throw new UserNotFoundException();
 
-                newUrl.User = foundUser;
-            }
-            else
-            {
-                throw new InvalidTokenException();
-            }
+            newUrl.User = foundUser;
         }
 
         _context.Urls.Add(newUrl);

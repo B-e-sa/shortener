@@ -2,7 +2,9 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Shortener.Application.Common;
 using Shortener.Application.Common.Behaviors;
+using Shortener.Application.Common.Interfaces;
 
 namespace Shortener.Application;
 
@@ -12,6 +14,8 @@ public static class DependencyInjection
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        services.AddScoped<ITokenService, TokenService>();
 
         services.AddMediatR(cfg =>
         {

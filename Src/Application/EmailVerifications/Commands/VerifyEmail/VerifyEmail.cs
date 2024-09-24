@@ -10,19 +10,20 @@ public record VerifyEmailCommand(string Code, string Token) : IRequest;
 
 class VerifyEmailCommandHandler(
     IAppDbContext context,
-    IJwtProvider jwtProvider) : IRequestHandler<VerifyEmailCommand>
+    ITokenService tokenService
+    ) : IRequestHandler<VerifyEmailCommand>
 {
     private readonly IAppDbContext _context = context;
-    private readonly IJwtProvider _jwtProvider = jwtProvider;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task Handle(VerifyEmailCommand req, CancellationToken cancellationToken)
     {
+        var payload = _tokenService.GetPayload(req.Token);
+
         var foundVerification = await _context.EmailVerifications
             .Where(e => e.Code == req.Code)
             .FirstOrDefaultAsync(cancellationToken)
              ?? throw new EmailVerificationNotFoundException();
-
-        var payload = _jwtProvider.Read(req.Token);
 
         if (payload.Id != foundVerification.UserId)
         {

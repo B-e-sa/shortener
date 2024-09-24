@@ -1,14 +1,10 @@
-﻿namespace Shortener.Application.Common.Interfaces;
+﻿using Shortener.Application.Common.Models;
 
-public class ClaimDto
-{
-    public int Id { get; set; }
-    public string Email { get; set; }
-}
+namespace Shortener.Application.Common.Interfaces;
 
 public interface IJwtProvider
 {
     string Generate(User user);
-    ClaimDto Read(string token);
+    ClaimDTO Read(string token);
     bool Validate(string token);
 }

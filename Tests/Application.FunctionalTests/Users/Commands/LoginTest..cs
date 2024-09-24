@@ -21,7 +21,7 @@ public class LoginTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTes
         };
 
         // Act
-        var loginRes = await HttpClient.PostAsJsonAsync($"{helper.GetApiUrl()}/auth", login);
+        var loginRes = await HttpClient.PostAsJsonAsync($"{helper.GetApiUrl()}/login", login);
 
         // Assert
         loginRes.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -40,7 +40,7 @@ public class LoginTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTes
         };
 
         // Act
-        var res = await HttpClient.PostAsJsonAsync($"{helper.GetApiUrl()}/auth", login);
+        var res = await HttpClient.PostAsJsonAsync($"{helper.GetApiUrl()}/login", login);
 
         // Assert
         res.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -60,7 +60,7 @@ public class LoginTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTes
         };
 
         // Act
-        var res = await HttpClient.PostAsJsonAsync($"{helper.GetApiUrl()}/auth", login);
+        var res = await HttpClient.PostAsJsonAsync($"{helper.GetApiUrl()}/login", login);
 
         // Assert
         res.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

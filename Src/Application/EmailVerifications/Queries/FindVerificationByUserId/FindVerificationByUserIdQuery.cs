@@ -10,17 +10,17 @@ public sealed record FindVerificationByUserIdQuery(string Token) : IRequest<Emai
 
 internal sealed class FindVerificationByUserIdQueryHandler(
     IAppDbContext context,
-    IJwtProvider jwtProvider) 
+    ITokenService tokenService) 
     : IRequestHandler<FindVerificationByUserIdQuery, EmailVerification>
 {
     readonly IAppDbContext _context = context;
-    readonly IJwtProvider _jwtProvider = jwtProvider;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task<EmailVerification> Handle(
         FindVerificationByUserIdQuery req,
         CancellationToken cancellationToken)
     {
-        var payload = _jwtProvider.Read(req.Token);
+        var payload = _tokenService.GetPayload(req.Token);
 
         var foundVerification = await _context
             .EmailVerifications

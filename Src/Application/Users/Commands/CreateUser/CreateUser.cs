@@ -22,13 +22,13 @@ class CreateUserCommandHandler(
     private readonly IEncryptionProvider _encryption = encryption;
     private readonly IMailingProvider _mailingProvider = mailingProvider;
 
-    public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateUserCommand req, CancellationToken cancellationToken)
     {
         User user = new() 
         {
-            Email = request.Email,
-            Username = request.Username,
-            Password = _encryption.Hash(request.Password),
+            Email = req.Email,
+            Username = req.Username,
+            Password = _encryption.Hash(req.Password),
         };
 
         _context.Users.Add(user);
@@ -42,8 +42,8 @@ class CreateUserCommandHandler(
         await _context.SaveChangesAsync(cancellationToken);
 
         await _mailingProvider.SendVerificationCode(
-            request.Username, 
-            request.Email, 
+            req.Username, 
+            req.Email, 
             verification.Code);
 
         return _jwt.Generate(user);

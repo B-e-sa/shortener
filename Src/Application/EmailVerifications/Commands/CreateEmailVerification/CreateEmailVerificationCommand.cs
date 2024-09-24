@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Shortener.Application.Common;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions;
 using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.EmailVerifications.Commands.CreateEmailVerification;
@@ -8,21 +10,22 @@ public record CreateEmailVerificationCommand(string Token) : IRequest<EmailVerif
 
 public class CreateEmailVerificationCommandHandler(
     IAppDbContext context,
-    IJwtProvider jwtProvider) : IRequestHandler<CreateEmailVerificationCommand, EmailVerification>
+    ITokenService tokenService
+    ) : IRequestHandler<CreateEmailVerificationCommand, EmailVerification>
 {
     private readonly IAppDbContext _context = context;
-    private readonly IJwtProvider _jwtProvider = jwtProvider;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task<EmailVerification> Handle(
         CreateEmailVerificationCommand req,
         CancellationToken cancellationToken)
     {
-        var payload = _jwtProvider.Read(req.Token);
+        var payload = _tokenService.GetPayload(req.Token);
 
         var foundUser = await _context
-            .Users
-            .FindAsync([payload.Id], cancellationToken)
-            ?? throw new UserNotFoundException();
+        .Users
+        .FindAsync([payload.Id], cancellationToken)
+        ?? throw new UserNotFoundException();
 
         var olderVerifications = _context
             .EmailVerifications
