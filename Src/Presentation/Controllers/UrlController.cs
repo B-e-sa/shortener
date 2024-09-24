@@ -39,7 +39,10 @@ public class UrlController : ApiController
         CancellationToken cancellationToken
     )
     {
-        var command = new DeleteUrlCommand(id);
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = (new { Id = id, Token = token })
+            .Adapt<DeleteUrlCommand>();
 
         await Sender.Send(command, cancellationToken);
 
