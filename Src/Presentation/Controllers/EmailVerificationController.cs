@@ -24,11 +24,13 @@ public class VerificationController : ApiController
     }
 
     [HttpPost("verify")]
-    public async Task<IActionResult> Verify(CancellationToken cancellationToken)
+    public async Task<IActionResult> Verify(
+        [FromBody] VerifyEmailCommand req,
+        CancellationToken cancellationToken)
     {
         var token = GetBearerToken.FromHeader(HttpContext);
 
-        var command = new { Token = token }.Adapt<VerifyEmailCommand>();
+        var command = (req with { Token = token }).Adapt<VerifyEmailCommand>();
 
         await Sender.Send(command, cancellationToken);
 
