@@ -1,5 +1,3 @@
 ﻿namespace Shortener.Tests.Application.FunctionalTests.EmailVerifications;
 
-public class EmailVerificationHelper() : TestHelper("verification")
-{
-}
+public class EmailVerificationHelper() : TestHelper("verification");

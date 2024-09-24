@@ -1,28 +1,78 @@
-﻿using Shortener.Tests.Application.FunctionalTests.Users;
+﻿using Shortener.Application.Common.Models;
+using Shortener.Tests.Application.FunctionalTests.Users;
 using System.Net.Http.Headers;
 
 namespace Shortener.Tests.Application.FunctionalTests.EmailVerifications.Commands;
 
-public class VerifyEmailTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
+public class VerifyEmailTests(FunctionalTestWebAppFactory factory) 
+    : BaseFunctionalTest(factory)
 {
     private readonly UserHelper userHelper = new();
     private readonly EmailVerificationHelper verificationHelper = new ();
 
+    private async Task<string> CreateUser()
+    {
+        var user = userHelper.GenerateValidUser();
+        var createdUserResponse = await HttpClient.PostAsJsonAsync(userHelper.GetApiUrl(), user);
+        return await createdUserResponse.Content.ReadAsStringAsync();
+    }
+
     [Fact]
-    public async Task Should_ReturnCreated_WhenRequestIsValid()
+    public async Task Should_VerifyUserEmail_WhenUserExists()
     {
         // Arrange
-        var user = userHelper.GenerateValidUser();
-        var userRes = await HttpClient.PostAsJsonAsync(userHelper.GetApiUrl(), user);
-        var userToken = await userRes.Content.ReadAsStringAsync();
+        var token = await CreateUser();
+        var authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var createVerificationReq = new HttpRequestMessage(HttpMethod.Post, verificationHelper.GetApiUrl());
+        createVerificationReq.Headers.Authorization = authorization;
+        
+        var createVerificationRes = await HttpClient.SendAsync(createVerificationReq);
+
+        var emailVerification = await verificationHelper
+            .DeserializeResponse<EmailVerification>(createVerificationRes);
+
+        // Act
+        var verifyReq = new HttpRequestMessage(HttpMethod.Post, $"{verificationHelper.GetApiUrl()}/verify")
+        {
+            Content = JsonContent.Create(new { emailVerification.Code }),
+        };
+        verifyReq.Headers.Authorization = authorization;
+        
+        var verifyRes = await HttpClient.SendAsync(verifyReq);
+
+        // Assert
+
+        verifyRes.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var authenticationReq = new HttpRequestMessage(HttpMethod.Post, $"{userHelper.GetApiUrl()}/auth");
+        authenticationReq.Headers.Authorization = authorization;
+
+        var authRes = await HttpClient.SendAsync(authenticationReq);
+
+        verifyRes.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        var authBody = await verificationHelper.DeserializeResponse<UserDTO>(authRes);
+        authBody.ConfirmedEmail.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Should_ReturnNotFound_WhenUserDoesNotExists()
+    {
+        // Arrange
+        var token = await CreateUser();
+
+        var deleteReq = new HttpRequestMessage(HttpMethod.Delete, userHelper.GetApiUrl());
+        deleteReq.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        await HttpClient.SendAsync(deleteReq);
 
         // Act
         var req = new HttpRequestMessage(HttpMethod.Post, verificationHelper.GetApiUrl());
-        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var createdEmailVerificationRes = await HttpClient.SendAsync(req);
 
         // Assert
-        createdEmailVerificationRes.StatusCode.Should().Be(HttpStatusCode.Created);
+        createdEmailVerificationRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 } 
