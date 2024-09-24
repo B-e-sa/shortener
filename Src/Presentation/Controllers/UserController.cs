@@ -2,10 +2,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using Shortener.Application.Users.Commands.AuthenticateToken;
 using Shortener.Application.Users.Commands.CreateUser;
 using Shortener.Application.Users.Commands.DeleteUser;
 using Shortener.Application.Users.Commands.Login;
 using Shortener.Application.Users.Queries.FindUserById;
+using Shortener.Presentation.Common;
 
 namespace Shortener.Presentation.Controllers;
 
@@ -24,13 +26,15 @@ public class UserController : ApiController
         return CreatedAtAction(nameof(CreateUser), new { userId }, userId);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteUser(
         int id,
         CancellationToken cancellationToken
     )
     {
-        var command = new DeleteUserCommand(id);
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = new { Token = token }.Adapt<DeleteUserCommand>();
 
         await Sender.Send(command, cancellationToken);
 
@@ -50,7 +54,7 @@ public class UserController : ApiController
         return Ok(foundUser);
     }
 
-    [HttpPost("auth")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(
         [FromBody] LoginCommand req,
         CancellationToken cancellationToken
@@ -61,5 +65,17 @@ public class UserController : ApiController
         var token = await Sender.Send(command, cancellationToken);
 
         return Ok(token);
+    }
+
+    [HttpPost("auth")]
+    public async Task<IActionResult> Login(CancellationToken cancellationToken)
+    {
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = new { Token = token }.Adapt<AuthenticateTokenCommand>();
+
+        var user = await Sender.Send(command, cancellationToken);
+
+        return Ok(user);
     }
 }

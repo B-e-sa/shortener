@@ -4,19 +4,25 @@ using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Users.Commands.DeleteUser;
 
-public record DeleteUserCommand(int Id) : IRequest;
+public record DeleteUserCommand(string Token) : IRequest;
 
-public class DeleteUserCommandHandler(IAppDbContext context) : IRequestHandler<DeleteUserCommand>
+public class DeleteUserCommandHandler(
+    IAppDbContext context,
+    ITokenService tokenService
+    ) : IRequestHandler<DeleteUserCommand>
 {
     private readonly IAppDbContext _context = context;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task Handle(DeleteUserCommand req, CancellationToken cancellationToken)
     {
-        var entity = await _context.Users
-            .FindAsync([req.Id], cancellationToken)
+        var payload = _tokenService.GetPayload(req.Token);
+
+        var foundUser = await _context.Users
+            .FindAsync([payload.Id], cancellationToken)
             ?? throw new UserNotFoundException();
 
-        _context.Users.Remove(entity);
+        _context.Users.Remove(foundUser);
         await _context.SaveChangesAsync(cancellationToken);
     }
 };
