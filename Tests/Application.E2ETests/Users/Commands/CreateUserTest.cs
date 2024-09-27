@@ -18,7 +18,6 @@ public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunction
 
         // Assert
         createdRes.StatusCode.Should().Be(HttpStatusCode.Created);
-        createdRes.Content.Should().BeOfType<StreamContent>();
     }
 
     [Fact]

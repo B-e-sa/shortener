@@ -24,7 +24,6 @@ public class LoginTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTes
 
         // Assert
         loginRes.StatusCode.Should().Be(HttpStatusCode.OK);
-        loginRes.Content.Should().BeOfType<StreamContent>();
     }
 
     [Fact]

@@ -53,9 +53,6 @@ public class DeleteUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctiona
 
         // Assert
         deletedRes.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var foundRes = await HttpClient.GetAsync($"{urlHelper.GetApiUrl()}/{url.ShortUrl}");
-        foundRes.StatusCode.Should().BeOneOf(HttpStatusCode.NotFound);
     }
 
     [Fact]

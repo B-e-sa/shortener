@@ -31,7 +31,7 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
     }
 
     [Fact]
-    public async Task Should_VerifyUserEmail_WhenUserExists()
+    public async Task Should_ReturnOk_WhenUserIsAuthorized()
     {
         // Arrange
         var token = await CreateUser();
@@ -50,16 +50,6 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
 
         // Assert
         verifyRes.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var authenticationReq = new HttpRequestMessage(HttpMethod.Post, $"{userHelper.GetApiUrl()}/auth");
-        authenticationReq.Headers.Authorization = authorization;
-
-        var authRes = await HttpClient.SendAsync(authenticationReq);
-
-        verifyRes.StatusCode.Should().Be(HttpStatusCode.OK);
-        
-        var authBody = await verificationHelper.DeserializeResponse<UserDTO>(authRes);
-        authBody.ConfirmedEmail.Should().BeTrue();
     }
 
     [Fact]

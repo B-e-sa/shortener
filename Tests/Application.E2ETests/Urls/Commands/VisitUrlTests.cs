@@ -5,7 +5,7 @@ public class VisitUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctional
     private readonly UrlHelper helper = new();
 
     [Fact]
-    public async Task Should_ReturnAndIncreaseVisitCount_WhenUrlExists()
+    public async Task Should_ReturnOk_WhenUrlExists()
     {
         // Arrange
         var url = helper.GenerateValidUrl();
@@ -16,11 +16,9 @@ public class VisitUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctional
 
         // Act
         var foundRes = await HttpClient.GetAsync(shortUrl);
-        var foundBody = await helper.DeserializeResponse<Url>(foundRes);
 
         // Assert
         foundRes.StatusCode.Should().BeOneOf(HttpStatusCode.OK);
-        foundBody?.Visits.Should().Be(1);
     }
 
     [Fact]

@@ -17,7 +17,7 @@ public class CreateEmailVerificationTest(FunctionalTestWebAppFactory factory)
     }
 
     [Fact]
-    public async Task Should_CreateEmailVerification_WhenRequestIsValid()
+    public async Task Should_ReturnCreated_WhenUserIsAuthorized()
     {
         // Arrange
         var token = await CreateUser();

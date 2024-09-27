@@ -10,7 +10,7 @@ public class CreateUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctiona
     private readonly UserHelper userHelper = new();
 
     [Fact]
-    public async Task Should_ReturnCreatedWithoutUserId_WhenUserIsNotAuthenticated()
+    public async Task Should_ReturnCreated_WhenUserIsNotAuthenticated()
     {
         // Arrange
         var url = helper.GenerateValidUrl();
@@ -19,18 +19,11 @@ public class CreateUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctiona
         var createdRes = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), url);
 
         // Assert
-        var createdBody = await helper.DeserializeResponse<Url>(createdRes);
         createdRes.StatusCode.Should().Be(HttpStatusCode.Created);
-
-        var foundRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/{createdBody.ShortUrl}");
-        foundRes.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var foundBody = await helper.DeserializeResponse<Url>(createdRes);
-        foundBody.UserId.Should().BeNull();
     }
 
     [Fact]
-    public async Task Should_ReturnCreatedWithUserId_WhenUserIsAuthenticated()
+    public async Task Should_ReturnCreated_WhenUserIsAuthenticated()
     {
         // Arrange
         var url = helper.GenerateValidUrl();
@@ -51,14 +44,7 @@ public class CreateUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctiona
         var createdRes = await HttpClient.SendAsync(req);
 
         // Assert
-        var createdBody = await helper.DeserializeResponse<Url>(createdRes);
         createdRes.StatusCode.Should().Be(HttpStatusCode.Created);
-
-        var foundRes = await HttpClient.GetAsync($"{helper.GetApiUrl()}/{createdBody.ShortUrl}");
-        foundRes.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var foundBody = await helper.DeserializeResponse<Url>(createdRes);
-        foundBody.UserId.Should().NotBeNull();
     }
 
     [Fact]

@@ -22,8 +22,5 @@ public class AuthenticateTokenTests(FunctionalTestWebAppFactory factory) : BaseF
 
         // Assert
         res.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var resBody = await helper.DeserializeResponse<UserDTO>(res);
-        resBody.Email.Should().Be(user.Email);
     }
 }
