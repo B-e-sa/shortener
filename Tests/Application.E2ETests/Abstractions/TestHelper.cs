@@ -1,7 +1,7 @@
 using Bogus;
 using Newtonsoft.Json;
 
-namespace Shortener.Tests.Application.FunctionalTests.Abstractions;
+namespace Shortener.Tests.Application.E2ETests.Abstractions;
 
 public class TestHelper(string currentRoute)
 {

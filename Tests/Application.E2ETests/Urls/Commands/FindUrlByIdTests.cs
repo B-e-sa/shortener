@@ -1,4 +1,6 @@
-namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
+using Shortener.Tests.Application.E2ETests.Urls;
+
+namespace Shortener.Tests.Application.E2ETests.Urls.Commands;
 
 public class FindUrlByIdTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {

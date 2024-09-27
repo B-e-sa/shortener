@@ -1,6 +1,6 @@
 ﻿using Shortener.Application.Users.Commands.Login;
 
-namespace Shortener.Tests.Application.FunctionalTests.Users.Commands;
+namespace Shortener.Tests.Application.E2ETests.Users.Commands;
 
 public class LoginTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {

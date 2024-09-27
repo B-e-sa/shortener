@@ -1,8 +1,8 @@
 ﻿using Shortener.Application.Common.Models;
-using Shortener.Tests.Application.FunctionalTests.Users;
+using Shortener.Tests.Application.E2ETests.Users;
 using System.Net.Http.Headers;
 
-namespace Shortener.Tests.Application.FunctionalTests.EmailVerifications.Commands;
+namespace Shortener.Tests.Application.E2ETests.EmailVerifications.Commands;
 
 public class VerifyEmailTests(FunctionalTestWebAppFactory factory) 
     : BaseFunctionalTest(factory)

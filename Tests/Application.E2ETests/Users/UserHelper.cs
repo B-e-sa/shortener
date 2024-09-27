@@ -1,8 +1,6 @@
 ﻿using Shortener.Application.Users.Commands.CreateUser;
-using Bogus.Extensions;
 
-
-namespace Shortener.Tests.Application.FunctionalTests.Users
+namespace Shortener.Tests.Application.E2ETests.Users
 {
     public class UserHelper() : TestHelper("user")
     {

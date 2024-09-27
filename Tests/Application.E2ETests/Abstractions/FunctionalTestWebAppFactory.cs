@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shortener.Infrastructure.Data;
 using Testcontainers.PostgreSql;
 
-namespace Shortener.Tests.Application.FunctionalTests.Abstractions;
+namespace Shortener.Tests.Application.E2ETests.Abstractions;
 
 public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {

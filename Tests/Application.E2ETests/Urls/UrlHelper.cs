@@ -1,6 +1,7 @@
 ﻿using Shortener.Application.Urls.Commands.CreateUrl;
+using Shortener.Tests.Application.E2ETests.Abstractions;
 
-namespace Shortener.Tests.Application.FunctionalTests.Urls
+namespace Shortener.Tests.Application.E2ETests.Urls
 {
     public class UrlHelper() : TestHelper("url")
     {

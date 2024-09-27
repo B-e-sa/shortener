@@ -1,7 +1,7 @@
-using Shortener.Tests.Application.FunctionalTests.Users;
+using Shortener.Tests.Application.E2ETests.Users;
 using System.Net.Http.Headers;
 
-namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
+namespace Shortener.Tests.Application.E2ETests.Urls.Commands;
 
 public class DeleteUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {

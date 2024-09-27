@@ -41,10 +41,11 @@ class CreateUserCommandHandler(
         _context.EmailVerifications.Add(verification);
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _mailingProvider.SendVerificationCode(
-            req.Username, 
-            req.Email, 
-            verification.Code);
+        //TODO: Uncomment
+        //await _mailingProvider.SendVerificationCode(
+        //    req.Username, 
+        //    req.Email, 
+        //    verification.Code);
 
         return _jwt.Generate(user);
     }

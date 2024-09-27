@@ -1,4 +1,4 @@
-namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
+namespace Shortener.Tests.Application.E2ETests.Urls.Commands;
 
 public class VisitUrlTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {

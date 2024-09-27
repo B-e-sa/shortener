@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Shortener.Tests.Application.FunctionalTests.Urls.Commands;
+namespace Shortener.Tests.Application.E2ETests.Urls.Commands;
 
 public class GetTopUrlsTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {

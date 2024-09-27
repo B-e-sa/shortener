@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shortener.Infrastructure.Data;
 
-namespace Shortener.Tests.Application.FunctionalTests.Abstractions;
+namespace Shortener.Tests.Application.E2ETests.Abstractions;
 
 public class BaseFunctionalTest : IClassFixture<FunctionalTestWebAppFactory>
 {

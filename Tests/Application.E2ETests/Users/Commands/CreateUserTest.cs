@@ -1,6 +1,7 @@
 ﻿using Shortener.Application.Users.Commands.CreateUser;
+using Shortener.Tests.Application.E2ETests.Abstractions;
 
-namespace Shortener.Tests.Application.FunctionalTests.Users.Commands;
+namespace Shortener.Tests.Application.E2ETests.Users.Commands;
 
 public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {
