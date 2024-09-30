@@ -4,9 +4,9 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Application.Urls.Commands.CreateUrl;
 using Shortener.Application.Urls.Commands.DeleteUrl;
-using Shortener.Application.Urls.Queries.FindUrlById;
 using Shortener.Application.Urls.Queries.FindUrlByShortUrl;
 using Shortener.Application.Urls.Queries.GetTopUrls;
+using Shortener.Application.Urls.Queries.GetUrlsByUserId;
 using Shortener.Presentation.Common;
 
 namespace Shortener.Presentation.Controllers;
@@ -49,17 +49,17 @@ public class UrlController : ApiController
         return Ok(id);
     }
 
-    [HttpGet("find/{id}")]
-    public async Task<IActionResult> FindById(
-        int id,
-        CancellationToken cancellationToken
-    )
+    [HttpGet("my-urls")]
+    public async Task<IActionResult> GetUserUrlsById(CancellationToken cancellationToken)
     {
-        var query = new FindUrlByIdQuery(id);
+        var token = GetBearerToken.FromHeader(HttpContext);
 
-        var foundUrl = await Sender.Send(query, cancellationToken);
+        var query = (new { Token = token })
+            .Adapt<GetUrlsByUserIdQueryHandler>();
 
-        return Ok(foundUrl);
+        var foundUrls = await Sender.Send(query, cancellationToken);
+
+        return Ok(foundUrls);
     }
 
     [HttpGet]
