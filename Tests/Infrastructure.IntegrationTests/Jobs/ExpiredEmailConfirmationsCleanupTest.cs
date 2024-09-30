@@ -6,7 +6,6 @@ using Shortener.Application.Common.Interfaces;
 using System;
 using System.Threading;
 using MockQueryable.Moq;
-using Shortener.Domain.Entities;
 
 namespace Shortener.Tests.Infrastructure.IntegrationTests.Jobs;
 
@@ -19,10 +18,10 @@ public class ExpiredEmailConfirmationsCleanupTest
         var mockDbContext = new Mock<IAppDbContext>();
 
         var oldVerifications = new List<EmailVerification> {
-            new() { CreatedAt = DateTime.Now, UserId = 12 },
-            new() { CreatedAt = DateTime.Now.AddDays(-2), UserId = 18 },
-            new() { CreatedAt = DateTime.Now.AddDays(-1), UserId = 24 },
-            new() { CreatedAt = DateTime.Now.AddDays(-4), UserId = 1 }
+            new() { CreatedAt = DateTime.Now, UserId = 0 },
+            new() { CreatedAt = DateTime.Now.AddDays(-4), UserId = 18 },
+            new() { CreatedAt = DateTime.Now.AddDays(-7), UserId = 24 },
+            new() { CreatedAt = DateTime.Now.AddDays(-6), UserId = 1 }
         };
 
         var mockUrlSet = oldVerifications.AsQueryable().BuildMockDbSet();
@@ -51,6 +50,6 @@ public class ExpiredEmailConfirmationsCleanupTest
                 .SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
 
         oldVerifications.Should().HaveCount(2);
-        oldVerifications.Should().OnlyContain(u => u.CreatedAt > DateTime.Now.AddDays(-2));
+        oldVerifications.Should().OnlyContain(u => u.CreatedAt > DateTime.Now.AddDays(-5));
     }
 }

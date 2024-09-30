@@ -1,5 +1,4 @@
-﻿using Shortener.Application.Common.Models;
-using Shortener.Tests.Application.E2ETests.Users;
+﻿using Shortener.Tests.Application.E2ETests.Users;
 using System.Net.Http.Headers;
 
 namespace Shortener.Tests.Application.E2ETests.EmailVerifications.Commands;
@@ -53,7 +52,7 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
     }
 
     [Fact]
-    public async Task Should_ReturnNotFound_WhenUserDoesNotExists()
+    public async Task Should_ReturnUnauthorized_WhenUserDoesNotExists()
     {
         // Arrange
         var token = await CreateUser();
@@ -69,7 +68,7 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         var createdEmailVerificationRes = await HttpClient.SendAsync(req);
 
         // Assert
-        createdEmailVerificationRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        createdEmailVerificationRes.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]

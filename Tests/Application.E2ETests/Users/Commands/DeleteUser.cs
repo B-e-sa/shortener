@@ -22,7 +22,7 @@ public class DeleteUserTests(FunctionalTestWebAppFactory factory)
     }
 
     [Fact]
-    public async Task Should_DeleteUser_WhenUserExists()
+    public async Task Should_ReturnOk_WhenUserExists()
     {
         // Arrange
         var token = await CreateUser();
@@ -35,7 +35,7 @@ public class DeleteUserTests(FunctionalTestWebAppFactory factory)
     }
 
     [Fact]
-    public async Task Should_ReturnNotFound_WhenUserDoesNotExists()
+    public async Task Should_ReturnUnauthorized_WhenUserDoesNotExists()
     {
         // Arrange
         var token = await CreateUser();
@@ -45,6 +45,6 @@ public class DeleteUserTests(FunctionalTestWebAppFactory factory)
         var deletedRes = await DeleteUser(token);
 
         // Assert
-        deletedRes.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        deletedRes.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 }
