@@ -10,28 +10,23 @@ public record AuthenticateTokenCommand(string Token) : IRequest<UserDTO>;
 
 public class AuthenticateTokenCommandHandler(
     IAppDbContext context,
-    ITokenService tokenService
-    ) : IRequestHandler<AuthenticateTokenCommand, UserDTO>
+    ITokenService tokenService) : IRequestHandler<AuthenticateTokenCommand, UserDTO>
 {
     private readonly IAppDbContext _context = context;
     private readonly ITokenService _tokenService = tokenService;
 
     public async Task<UserDTO> Handle(AuthenticateTokenCommand req, CancellationToken cancellationToken)
     {
-        var payload = _tokenService.GetPayload(req.Token);
+        var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
-        var foundUser = await _context.Users
-             .Where(u => u.Id == payload.Id)
-             .Select(u => new UserDTO
-             {
-                 Id = u.Id,
-                 UserName = u.Username,
-                 Email = u.Email,
-                 ConfirmedEmail = u.ConfirmedEmail
-             })
-             .FirstOrDefaultAsync(cancellationToken)
-             ?? throw new UserNotFoundException();
+        UserDTO userDto = new()
+        {
+            Id = foundUser.Id,
+            UserName = foundUser.Username,
+            Email = foundUser.Email,
+            ConfirmedEmail = foundUser.ConfirmedEmail
+        };
 
-        return foundUser;
+        return userDto;
     }
 }

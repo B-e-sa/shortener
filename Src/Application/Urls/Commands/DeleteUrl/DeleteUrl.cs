@@ -13,7 +13,7 @@ public class DeleteUrlCommandHandler(IAppDbContext context, ITokenService tokenS
 
     public async Task Handle(DeleteUrlCommand req, CancellationToken cancellationToken)
     {
-        var payload = _tokenService.GetPayload(req.Token);
+        var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
         var foundUrl = await _context.Urls
             .FindAsync([req.Id], cancellationToken)
@@ -24,7 +24,7 @@ public class DeleteUrlCommandHandler(IAppDbContext context, ITokenService tokenS
             throw new UnauthorizedAccessException("Users cannot delete anonymously created URLs.");
         }
 
-        if (payload.Id != foundUrl.UserId)
+        if (foundUser.Id != foundUrl.UserId)
         {
             throw new UnauthorizedAccessException("Only the url owner can delete it.");
         }

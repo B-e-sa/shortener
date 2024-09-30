@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions.Users;
+using Shortener.Domain.Common.Exceptions;
 
 namespace Shortener.Application.EmailVerifications.Commands.CreateEmailVerification;
 
@@ -8,8 +8,7 @@ public record CreateEmailVerificationCommand(string Token) : IRequest<EmailVerif
 
 public class CreateEmailVerificationCommandHandler(
     IAppDbContext context,
-    ITokenService tokenService
-    ) : IRequestHandler<CreateEmailVerificationCommand, EmailVerification>
+    ITokenService tokenService) : IRequestHandler<CreateEmailVerificationCommand, EmailVerification>
 {
     private readonly IAppDbContext _context = context;
     private readonly ITokenService _tokenService = tokenService;
@@ -18,16 +17,11 @@ public class CreateEmailVerificationCommandHandler(
         CreateEmailVerificationCommand req,
         CancellationToken cancellationToken)
     {
-        var payload = _tokenService.GetPayload(req.Token);
-
-        var foundUser = await _context
-        .Users
-        .FindAsync([payload.Id], cancellationToken)
-        ?? throw new UserNotFoundException();
+        var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
         var olderVerifications = _context
             .EmailVerifications
-            .Where(e => e.UserId == payload.Id);
+            .Where(e => e.UserId == foundUser.Id);
 
         _context.EmailVerifications.RemoveRange(olderVerifications);
 

@@ -20,18 +20,13 @@ internal sealed class FindVerificationByUserIdQueryHandler(
         FindVerificationByUserIdQuery req,
         CancellationToken cancellationToken)
     {
-        var payload = _tokenService.GetPayload(req.Token);
+        var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
         var foundVerification = await _context
             .EmailVerifications
-            .Where(v => v.UserId == payload.Id)
+            .Where(v => v.UserId == foundUser.Id)
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new EmailVerificationNotFoundException();
-
-        var foundUser = await _context
-            .Users
-            .FindAsync([payload.Id], cancellationToken)
-            ?? throw new UserNotFoundException();
 
         if (foundUser.Id != foundVerification.UserId)
         {

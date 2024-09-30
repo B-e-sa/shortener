@@ -18,22 +18,17 @@ class VerifyEmailCommandHandler(
 
     public async Task Handle(VerifyEmailCommand req, CancellationToken cancellationToken)
     {
-        var payload = _tokenService.GetPayload(req.Token);
+        var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
         var foundVerification = await _context.EmailVerifications
             .Where(e => e.Code == req.Code)
             .FirstOrDefaultAsync(cancellationToken)
              ?? throw new EmailVerificationNotFoundException();
 
-        if (payload.Id != foundVerification.UserId)
+        if (foundUser.Id != foundVerification.UserId)
         {
             throw new UnauthorizedAccessException("Only the account owner can verify it.");
         }
-
-        var foundUser = await _context
-            .Users
-            .FindAsync([payload.Id], cancellationToken)
-            ?? throw new UserNotFoundException();
 
         foundUser.ConfirmedEmail = true;
         await _context.SaveChangesAsync(cancellationToken);

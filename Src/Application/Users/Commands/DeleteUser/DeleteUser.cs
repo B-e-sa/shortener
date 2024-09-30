@@ -16,11 +16,7 @@ public class DeleteUserCommandHandler(
 
     public async Task Handle(DeleteUserCommand req, CancellationToken cancellationToken)
     {
-        var payload = _tokenService.GetPayload(req.Token);
-
-        var foundUser = await _context.Users
-            .FindAsync([payload.Id], cancellationToken)
-            ?? throw new UserNotFoundException();
+        var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
         _context.Users.Remove(foundUser);
         await _context.SaveChangesAsync(cancellationToken);

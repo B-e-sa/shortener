@@ -4,5 +4,5 @@ namespace Shortener.Application.Common.Interfaces;
 
 public interface ITokenService
 {
-    ClaimDTO GetPayload(string token);
+    Task<User?> GetUser(string token, CancellationToken cancellationToken);
 }

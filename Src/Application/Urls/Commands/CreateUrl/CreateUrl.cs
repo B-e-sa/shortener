@@ -1,7 +1,5 @@
 using MediatR;
-using Shortener.Application.Common;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions;
 using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Urls.Commands.CreateUrl;
@@ -31,13 +29,7 @@ public class CreateUrlCommandHandler(
 
         if (req.Token != null)
         {
-            var payload = _tokenService.GetPayload(req.Token);
-
-            var foundUser = await _context
-                .Users
-                .FindAsync([payload.Id], cancellationToken)
-                ?? throw new UserNotFoundException();
-
+            var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
             newUrl.User = foundUser;
         }
 
