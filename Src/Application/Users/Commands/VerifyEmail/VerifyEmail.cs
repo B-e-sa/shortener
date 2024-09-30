@@ -2,16 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
 using Shortener.Domain.Common.Exceptions.EmailVerifications;
-using Shortener.Domain.Common.Exceptions.Users;
 
-namespace Shortener.Application.EmailVerifications.Commands.VerifyEmail;
+namespace Shortener.Application.Users.Commands.VerifyEmail;
 
 public record VerifyEmailCommand(string Code, string Token) : IRequest;
 
 class VerifyEmailCommandHandler(
     IAppDbContext context,
-    ITokenService tokenService
-    ) : IRequestHandler<VerifyEmailCommand>
+    ITokenService tokenService) : IRequestHandler<VerifyEmailCommand>
 {
     private readonly IAppDbContext _context = context;
     private readonly ITokenService _tokenService = tokenService;

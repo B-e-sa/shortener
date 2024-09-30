@@ -2,12 +2,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using Shortener.Application.EmailVerifications.Queries.FindVerificationByUserId;
 using Shortener.Application.Users.Commands.AuthenticateToken;
+using Shortener.Application.Users.Commands.CreateEmailVerification;
 using Shortener.Application.Users.Commands.CreateNewPassword;
 using Shortener.Application.Users.Commands.CreateNewPasswordRequest;
 using Shortener.Application.Users.Commands.CreateUser;
 using Shortener.Application.Users.Commands.DeleteUser;
 using Shortener.Application.Users.Commands.Login;
+using Shortener.Application.Users.Commands.VerifyEmail;
 using Shortener.Application.Users.Queries.FindUserById;
 using Shortener.Presentation.Common;
 
@@ -99,6 +102,44 @@ public class UserController : ApiController
         CancellationToken cancellationToken)
     {
         var command = req.Adapt<CreateNewPasswordCommand>();
+
+        await Sender.Send(command, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("verification")]
+    public async Task<IActionResult> Create(CancellationToken cancellationToken)
+    {
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = new { Token = token }.Adapt<CreateEmailVerificationCommand>();
+
+        var emailVerificationId = await Sender.Send(command, cancellationToken);
+
+        return CreatedAtAction(nameof(Create), new { emailVerificationId }, emailVerificationId);
+    }
+
+    [HttpGet("verification")]
+    public async Task<IActionResult> Find(CancellationToken cancellationToken)
+    {
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = new { Token = token }.Adapt<FindVerificationByUserIdQuery>();
+
+        await Sender.Send(command, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("verify")]
+    public async Task<IActionResult> Verify(
+        [FromBody] VerifyEmailCommand req,
+        CancellationToken cancellationToken)
+    {
+        var token = GetBearerToken.FromHeader(HttpContext);
+
+        var command = (req with { Token = token }).Adapt<VerifyEmailCommand>();
 
         await Sender.Send(command, cancellationToken);
 

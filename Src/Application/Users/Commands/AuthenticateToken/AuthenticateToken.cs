@@ -1,8 +1,6 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
 using Shortener.Application.Common.Models;
-using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Users.Commands.AuthenticateToken;
 
@@ -12,7 +10,6 @@ public class AuthenticateTokenCommandHandler(
     IAppDbContext context,
     ITokenService tokenService) : IRequestHandler<AuthenticateTokenCommand, UserDTO>
 {
-    private readonly IAppDbContext _context = context;
     private readonly ITokenService _tokenService = tokenService;
 
     public async Task<UserDTO> Handle(AuthenticateTokenCommand req, CancellationToken cancellationToken)

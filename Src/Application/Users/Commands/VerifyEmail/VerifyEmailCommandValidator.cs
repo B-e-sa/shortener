@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Shortener.Application.EmailVerifications.Commands.VerifyEmail;
+namespace Shortener.Application.Users.Commands.VerifyEmail;
 
 public class VerifyEmailCommandValidator : AbstractValidator<VerifyEmailCommand>
 {

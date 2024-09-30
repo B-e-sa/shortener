@@ -1,18 +1,17 @@
-﻿using Shortener.Tests.Application.E2ETests.Users;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 
-namespace Shortener.Tests.Application.E2ETests.EmailVerifications.Commands;
+namespace Shortener.Tests.Application.E2ETests.Users.Commands;
 
-public class VerifyEmailTests(FunctionalTestWebAppFactory factory) 
+public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
     : BaseFunctionalTest(factory)
 {
-    private readonly UserHelper userHelper = new();
-    private readonly EmailVerificationHelper verificationHelper = new ();
+    static private readonly UserHelper helper = new();
+    private readonly string verificationRoute = $"{helper.GetApiUrl()}/verify)";
 
     private async Task<string> CreateUser()
     {
-        var user = userHelper.GenerateValidUser();
-        var createdUserResponse = await HttpClient.PostAsJsonAsync(userHelper.GetApiUrl(), user);
+        var user = helper.GenerateValidUser();
+        var createdUserResponse = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), user);
         return await createdUserResponse.Content.ReadAsStringAsync();
     }
 
@@ -20,12 +19,12 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
     {
         var authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        var createVerificationReq = new HttpRequestMessage(HttpMethod.Post, verificationHelper.GetApiUrl());
+        var createVerificationReq = new HttpRequestMessage(HttpMethod.Post, verificationRoute);
         createVerificationReq.Headers.Authorization = authorization;
 
         var createVerificationRes = await HttpClient.SendAsync(createVerificationReq);
 
-        return await verificationHelper
+        return await helper
             .DeserializeResponse<EmailVerification>(createVerificationRes);
     }
 
@@ -39,12 +38,12 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         var emailVerification = await CreateEmailVerification(token);
 
         // Act
-        var verifyReq = new HttpRequestMessage(HttpMethod.Post, $"{verificationHelper.GetApiUrl()}/verify")
+        var verifyReq = new HttpRequestMessage(HttpMethod.Post, verificationRoute)
         {
             Content = JsonContent.Create(new { emailVerification.Code }),
         };
         verifyReq.Headers.Authorization = authorization;
-        
+
         var verifyRes = await HttpClient.SendAsync(verifyReq);
 
         // Assert
@@ -57,14 +56,13 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         // Arrange
         var token = await CreateUser();
 
-        var deleteReq = new HttpRequestMessage(HttpMethod.Delete, userHelper.GetApiUrl());
+        var deleteReq = new HttpRequestMessage(HttpMethod.Delete, helper.GetApiUrl());
         deleteReq.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         await HttpClient.SendAsync(deleteReq);
 
         // Act
-        var req = new HttpRequestMessage(HttpMethod.Post, verificationHelper.GetApiUrl());
+        var req = new HttpRequestMessage(HttpMethod.Post, $"{helper.GetApiUrl()}/verification");
         req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
         var createdEmailVerificationRes = await HttpClient.SendAsync(req);
 
         // Assert
@@ -80,7 +78,7 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         var invalidCode = 12345;
 
         // Act
-        var verifyReq = new HttpRequestMessage(HttpMethod.Post, $"{verificationHelper.GetApiUrl()}/verify")
+        var verifyReq = new HttpRequestMessage(HttpMethod.Post, verificationRoute)
         {
             Content = JsonContent.Create(new { Code = invalidCode }),
         };
@@ -91,4 +89,4 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
         // Assert
         verifyRes.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
-} 
+}

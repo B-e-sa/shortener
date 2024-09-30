@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions;
 
-namespace Shortener.Application.EmailVerifications.Commands.CreateEmailVerification;
+namespace Shortener.Application.Users.Commands.CreateEmailVerification;
 
 public record CreateEmailVerificationCommand(string Token) : IRequest<EmailVerification>;
 
