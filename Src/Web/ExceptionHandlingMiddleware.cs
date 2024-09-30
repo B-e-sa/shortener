@@ -37,7 +37,7 @@ namespace Shortener.Web
             {
                 NotFoundException => StatusCodes.Status404NotFound,
                 UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-                ValidationException => StatusCodes.Status400BadRequest,
+                ValidationException or BadRequestException  => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError
             };
 
