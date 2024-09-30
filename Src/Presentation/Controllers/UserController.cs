@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Shortener.Application.Users.Commands.AuthenticateToken;
+using Shortener.Application.Users.Commands.CreateNewPassword;
+using Shortener.Application.Users.Commands.CreateNewPasswordRequest;
 using Shortener.Application.Users.Commands.CreateUser;
 using Shortener.Application.Users.Commands.DeleteUser;
 using Shortener.Application.Users.Commands.Login;
@@ -77,5 +79,29 @@ public class UserController : ApiController
         var user = await Sender.Send(command, cancellationToken);
 
         return Ok(user);
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> CreateNewPasswordRequest(
+        [FromBody] CreateNewPasswordRequestCommand req,
+        CancellationToken cancellationToken)
+    {
+        var command = req.Adapt<CreateNewPasswordRequestCommand>();
+
+        await Sender.Send(command, cancellationToken);
+
+        return Created();
+    }
+
+    [HttpPost("new-password")]
+    public async Task<IActionResult> CreateNewPassword(
+        [FromBody] CreateNewPasswordCommand req,
+        CancellationToken cancellationToken)
+    {
+        var command = req.Adapt<CreateNewPasswordCommand>();
+
+        await Sender.Send(command, cancellationToken);
+
+        return Ok();
     }
 }

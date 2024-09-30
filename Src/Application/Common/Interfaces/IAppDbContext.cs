@@ -8,6 +8,8 @@ public interface IAppDbContext
 
     DbSet<Url> Urls { get; }
 
+    DbSet<NewPasswordRequest> NewPasswordRequests { get; }
+
     DbSet<EmailVerification> EmailVerifications { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

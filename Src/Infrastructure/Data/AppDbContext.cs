@@ -12,6 +12,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     public DbSet<Url> Urls => Set<Url>();
 
+    public DbSet<NewPasswordRequest> NewPasswordRequests => Set<NewPasswordRequest>();
+
     public DbSet<EmailVerification> EmailVerifications => Set<EmailVerification>();
 
     protected override void OnModelCreating(ModelBuilder builder)
