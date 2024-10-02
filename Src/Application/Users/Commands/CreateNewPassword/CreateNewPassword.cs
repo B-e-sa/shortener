@@ -28,7 +28,7 @@ public class CreateNewPasswordCommandHandler(
             .FindAsync([foundRequest.UserId], cancellationToken)
             ?? throw new UserNotFoundException();
 
-        if(foundUser.Password == req.NewPassword)
+        if(_encryptionProvider.Verify(foundUser.Password, req.NewPassword))
         {
             throw new InvalidNewPasswordException();
         }

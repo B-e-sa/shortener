@@ -10,7 +10,7 @@ namespace Shortener.Infrastructure.Mailing
     {
         private readonly MailingOptions _options = options.Value;
 
-        public async Task SendVerificationCode(string username, string userEmail, string Code)
+        public async Task SendVerificationCode(string username, string userEmail, string code)
         {
             var email = new MimeMessage();
             email.From.Add(new MailboxAddress(_options.Username, _options.Email));
@@ -29,7 +29,7 @@ namespace Shortener.Infrastructure.Mailing
                                 <div>
                                     <p>This is your confirmation code:</p>
                                     <div style='margin: auto; width: 50%; border: 2px solid black; padding: 20px; text-align: center;'>
-                                    {Code}
+                                    {code}
                                     </div>
                                 </div>
                                 <p>If you weren't the one who made this request, just ignore this email.</p>
@@ -47,7 +47,7 @@ namespace Shortener.Infrastructure.Mailing
             smtp.Disconnect(true);
         }
 
-        public async Task SendNewPasswordVerificationCode(string username, string userEmail, string Code)
+        public async Task SendNewPasswordVerificationCode(string username, string userEmail, string code)
         {
             var email = new MimeMessage();
             email.From.Add(new MailboxAddress(_options.Username, _options.Email));
@@ -66,7 +66,7 @@ namespace Shortener.Infrastructure.Mailing
                                 <div>
                                     <p>This is your confirmation new password confirmation code:</p>
                                     <div style='margin: auto; width: 50%; border: 2px solid black; padding: 20px; text-align: center;'>
-                                    {Code}
+                                    {code}
                                     </div>
                                 </div>
                                 <p>If you weren't the one who made this request, just ignore this email.</p>
