@@ -29,15 +29,15 @@ public class CreateNewPasswordRequestCommandHandler(
             User = foundUser,
         };
 
+        _dbContext
+             .NewPasswordRequests
+             .Add(request);
+
         await _mailingProvider
             .SendNewPasswordVerificationCode(
                 foundUser.Username,
                 foundUser.Email,
                 request.Code);
-
-        _dbContext
-             .NewPasswordRequests
-             .Add(request);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
