@@ -13,10 +13,9 @@ public class GetTopUrlsQueryHandler(IAppDbContext context)
 
     public async Task<List<Url>> Handle(GetTopUrlsQuery request, CancellationToken cancellationToken)
     {
-
         var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
         return await _context.Urls
-            .Where(u => u.CreatedAt >= oneWeekAgo)
+            .Where(u => u.CreatedAt >= oneWeekAgo && u.Visits > 0)
             .OrderByDescending(u => u.Visits)
             .Take(10)
             .ToListAsync(cancellationToken);
