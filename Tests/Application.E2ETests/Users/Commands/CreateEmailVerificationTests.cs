@@ -2,7 +2,7 @@
 
 namespace Shortener.Tests.Application.E2ETests.Users.Commands;
 
-public class CreateEmailVerificationTest(FunctionalTestWebAppFactory factory)
+public class CreateEmailVerificationTests(FunctionalTestWebAppFactory factory)
     : BaseFunctionalTest(factory)
 {
     private readonly UserHelper helper = new();

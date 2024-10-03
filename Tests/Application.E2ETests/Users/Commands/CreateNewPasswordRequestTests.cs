@@ -1,6 +1,6 @@
 ﻿namespace Shortener.Tests.Application.E2ETests.Users.Commands;
 
-public class CreateNewPasswordRequestTest(FunctionalTestWebAppFactory factory) 
+public class CreateNewPasswordRequestTests(FunctionalTestWebAppFactory factory) 
     : BaseFunctionalTest(factory)
 {
     private readonly UserHelper helper = new();

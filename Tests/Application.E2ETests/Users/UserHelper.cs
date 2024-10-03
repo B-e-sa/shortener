@@ -1,16 +1,16 @@
-﻿using Shortener.Application.Users.Commands.CreateUser;
+﻿using Shortener.Application.Users.Commands.Register;
 
 namespace Shortener.Tests.Application.E2ETests.Users
 {
     public class UserHelper() : TestHelper("user")
     {
-        public CreateUserCommand GenerateValidUser()
+        public RegisterCommand GenerateValidUser()
         {
-            return new CreateUserCommand()
+            return new RegisterCommand()
             {
                 Email = faker.Internet.Email(),
                 Username = faker.Random.String(5, 24),
-                Password = "ValidPassw0rd!"
+                Password = faker.Random.String(8)
             };
         }
     }

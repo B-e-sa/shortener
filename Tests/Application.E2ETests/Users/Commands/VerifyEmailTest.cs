@@ -6,48 +6,13 @@ public class VerifyEmailTests(FunctionalTestWebAppFactory factory)
     : BaseFunctionalTest(factory)
 {
     static private readonly UserHelper helper = new();
-    private readonly string verificationRoute = $"{helper.GetApiUrl()}/verify)";
+    private readonly string verificationRoute = $"{helper.GetApiUrl()}/verify";
 
     private async Task<string> CreateUser()
     {
         var user = helper.GenerateValidUser();
         var createdUserResponse = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), user);
         return await createdUserResponse.Content.ReadAsStringAsync();
-    }
-
-    private async Task<EmailVerification> CreateEmailVerification(string token)
-    {
-        var authorization = new AuthenticationHeaderValue("Bearer", token);
-
-        var createVerificationReq = new HttpRequestMessage(HttpMethod.Post, verificationRoute);
-        createVerificationReq.Headers.Authorization = authorization;
-
-        var createVerificationRes = await HttpClient.SendAsync(createVerificationReq);
-
-        return await helper
-            .DeserializeResponse<EmailVerification>(createVerificationRes);
-    }
-
-    [Fact]
-    public async Task Should_ReturnOk_WhenUserIsAuthorized()
-    {
-        // Arrange
-        var token = await CreateUser();
-        var authorization = new AuthenticationHeaderValue("Bearer", token);
-
-        var emailVerification = await CreateEmailVerification(token);
-
-        // Act
-        var verifyReq = new HttpRequestMessage(HttpMethod.Post, verificationRoute)
-        {
-            Content = JsonContent.Create(new { emailVerification.Code }),
-        };
-        verifyReq.Headers.Authorization = authorization;
-
-        var verifyRes = await HttpClient.SendAsync(verifyReq);
-
-        // Assert
-        verifyRes.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]

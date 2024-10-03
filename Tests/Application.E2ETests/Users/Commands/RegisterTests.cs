@@ -1,9 +1,8 @@
-﻿using Shortener.Application.Users.Commands.CreateUser;
-using Shortener.Tests.Application.E2ETests.Abstractions;
+﻿using Shortener.Application.Users.Commands.Register;
 
 namespace Shortener.Tests.Application.E2ETests.Users.Commands;
 
-public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
+public class RegisterTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTest(factory)
 {
     private readonly UserHelper helper = new();
 
@@ -25,7 +24,7 @@ public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunction
     {
         // Arrange
         var user = helper.GenerateValidUser();
-        CreateUserCommand invalidUser = new()
+        RegisterCommand invalidUser = new()
         {
             Email = "invalidemail.com",
             Password = user.Password,
@@ -44,7 +43,7 @@ public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunction
     {
         // Arrange
         var user = helper.GenerateValidUser();
-        CreateUserCommand invalidUser = new()
+        RegisterCommand invalidUser = new()
         {
             Email = user.Email,
             Password = user.Password,
@@ -63,10 +62,10 @@ public class CreateUserTests(FunctionalTestWebAppFactory factory) : BaseFunction
     {
         // Arrange
         var user = helper.GenerateValidUser();
-        CreateUserCommand invalidUser = new()
+        RegisterCommand invalidUser = new()
         {
             Email = user.Email,
-            Password = "!password1",
+            Password = "word",
             Username = user.Username
         };
 

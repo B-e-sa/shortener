@@ -1,4 +1,3 @@
-using Shortener.Application.Common.Models;
 using System.Net.Http.Headers;
 
 namespace Shortener.Tests.Application.E2ETests.Users.Commands;

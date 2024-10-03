@@ -54,7 +54,7 @@ public class LoginTests(FunctionalTestWebAppFactory factory) : BaseFunctionalTes
         var login = new LoginCommand()
         {
             Email = user.Email,
-            Password = "invalidPassw0rd!"
+            Password = helper.GenerateValidUser().Password
         };
 
         // Act

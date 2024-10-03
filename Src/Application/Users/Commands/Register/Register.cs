@@ -1,28 +1,28 @@
 using MediatR;
 using Shortener.Application.Common.Interfaces;
 
-namespace Shortener.Application.Users.Commands.CreateUser;
+namespace Shortener.Application.Users.Commands.Register;
 
-public record CreateUserCommand : IRequest<string>
+public record RegisterCommand : IRequest<string>
 {
     public string Username { get; init; }
     public string Email { get; init; }
     public string Password { get; init; }
 }
 
-class CreateUserCommandHandler(
+class RegisterCommandHandler(
     IAppDbContext context, 
     IJwtProvider jwt, 
     IEncryptionProvider encryption,
     IMailingProvider mailingProvider
-) : IRequestHandler<CreateUserCommand, string>
+) : IRequestHandler<RegisterCommand, string>
 {
     private readonly IAppDbContext _context = context;
     private readonly IJwtProvider _jwt = jwt;
     private readonly IEncryptionProvider _encryption = encryption;
     private readonly IMailingProvider _mailingProvider = mailingProvider;
 
-    public async Task<string> Handle(CreateUserCommand req, CancellationToken cancellationToken)
+    public async Task<string> Handle(RegisterCommand req, CancellationToken cancellationToken)
     {
         User user = new() 
         {

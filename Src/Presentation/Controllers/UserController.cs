@@ -7,9 +7,9 @@ using Shortener.Application.Users.Commands.AuthenticateToken;
 using Shortener.Application.Users.Commands.CreateEmailVerification;
 using Shortener.Application.Users.Commands.CreateNewPassword;
 using Shortener.Application.Users.Commands.CreateNewPasswordRequest;
-using Shortener.Application.Users.Commands.CreateUser;
 using Shortener.Application.Users.Commands.DeleteUser;
 using Shortener.Application.Users.Commands.Login;
+using Shortener.Application.Users.Commands.Register;
 using Shortener.Application.Users.Commands.VerifyEmail;
 using Shortener.Application.Users.Queries.FindUserById;
 using Shortener.Presentation.Common;
@@ -19,16 +19,16 @@ namespace Shortener.Presentation.Controllers;
 public class UserController : ApiController
 {
     [HttpPost]
-    public async Task<IActionResult> CreateUser(
-        [FromBody] CreateUserCommand req,
+    public async Task<IActionResult> Register(
+        [FromBody] RegisterCommand req,
         CancellationToken cancellationToken
     )
     {
-        var command = req.Adapt<CreateUserCommand>();
+        var command = req.Adapt<RegisterCommand>();
 
         var userId = await Sender.Send(command, cancellationToken);
 
-        return CreatedAtAction(nameof(CreateUser), new { userId }, userId);
+        return CreatedAtAction(nameof(Register), new { userId }, userId);
     }
 
     [HttpDelete]

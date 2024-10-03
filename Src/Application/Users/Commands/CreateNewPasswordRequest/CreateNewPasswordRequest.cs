@@ -31,13 +31,14 @@ public class CreateNewPasswordRequestCommandHandler(
 
         _dbContext
              .NewPasswordRequests
-             .Add(request);
+             .Add(request); ;
 
-        await _mailingProvider
-            .SendNewPasswordVerificationCode(
-                foundUser.Username,
-                foundUser.Email,
-                request.Code);
+        //TODO: Uncomment
+        // await _mailingProvider
+        //    .SendNewPasswordVerificationCode(
+        //        foundUser.Username,
+        //        foundUser.Email,
+        //         request.Code);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
