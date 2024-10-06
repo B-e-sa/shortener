@@ -12,6 +12,8 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .MaximumLength(24)
             .MinimumLength(5);
 
-        RuleFor(v => v.Password.Trim()).Length(8);
+        RuleFor(v => v.Password.Trim())
+            .MaximumLength(32)
+            .MinimumLength(8);
     }
 }
