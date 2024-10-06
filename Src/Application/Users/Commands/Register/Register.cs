@@ -26,9 +26,9 @@ class RegisterCommandHandler(
     {
         User user = new() 
         {
-            Email = req.Email,
-            Username = req.Username,
-            Password = _encryption.Hash(req.Password),
+            Email = req.Email.Trim(),
+            Username = req.Username.Trim(),
+            Password = _encryption.Hash(req.Password.Trim()),
         };
 
         _context.Users.Add(user);

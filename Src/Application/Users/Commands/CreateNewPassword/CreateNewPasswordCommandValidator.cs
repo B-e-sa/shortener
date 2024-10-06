@@ -6,7 +6,7 @@ public class CreateNewPasswordCommandValidator : AbstractValidator<CreateNewPass
 {
     public CreateNewPasswordCommandValidator()
     {
-        RuleFor(v => v.NewPassword)
+        RuleFor(v => v.NewPassword.Trim())
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
     }
 }

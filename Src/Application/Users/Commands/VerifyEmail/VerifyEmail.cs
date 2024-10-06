@@ -19,7 +19,7 @@ class VerifyEmailCommandHandler(
         var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
 
         var foundVerification = await _context.EmailVerifications
-            .Where(e => e.Code == req.Code)
+            .Where(e => e.Code == req.Code.Trim())
             .FirstOrDefaultAsync(cancellationToken)
              ?? throw new EmailVerificationNotFoundException();
 

@@ -6,6 +6,6 @@ public class CreateNewPasswordCommandRequestCommandValidator : AbstractValidator
 {
     public CreateNewPasswordCommandRequestCommandValidator()
     {
-        RuleFor(v => v.Email).EmailAddress();
+        RuleFor(v => v.Email.Trim()).EmailAddress();
     }
 }

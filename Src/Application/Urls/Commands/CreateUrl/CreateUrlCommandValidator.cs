@@ -6,7 +6,7 @@ public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
 {
     public CreateUrlCommandValidator()
     {
-        RuleFor(v => v.Title)
+        RuleFor(v => v.Title.Trim())
             .MaximumLength(40)
             .MinimumLength(5);
 

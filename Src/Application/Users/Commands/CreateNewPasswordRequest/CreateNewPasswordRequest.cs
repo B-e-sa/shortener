@@ -20,7 +20,7 @@ public class CreateNewPasswordRequestCommandHandler(
         CancellationToken cancellationToken)
     {
         var foundUser = await _dbContext.Users
-            .Where(u => u.Email == req.Email)
+            .Where(u => u.Email == req.Email.Trim())
             .FirstOrDefaultAsync(cancellationToken)
              ?? throw new UserNotFoundException();
 

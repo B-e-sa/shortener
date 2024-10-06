@@ -23,7 +23,7 @@ public class CreateUrlCommandHandler(
     {
         Url newUrl = new()
         {
-            Title = req.Title,
+            Title = req.Title.Trim(),
             OriginalUrl = req.Url,
         };
 

@@ -25,11 +25,11 @@ class LoginCommandHandler(
     public async Task<string> Handle(LoginCommand req, CancellationToken cancellationToken)
     {
         var foundUser = await _context.Users
-             .Where(u => u.Email == req.Email)
+             .Where(u => u.Email == req.Email.Trim())
              .FirstOrDefaultAsync(cancellationToken: cancellationToken) 
              ?? throw new UserNotFoundException();
         
-        if (!_encryptionProvider.Verify(req.Password, foundUser.Password))
+        if (!_encryptionProvider.Verify(req.Password.Trim(), foundUser.Password))
         {
             throw new InvalidUserPasswordException();
         }

@@ -28,12 +28,14 @@ public class CreateNewPasswordCommandHandler(
             .FindAsync([foundRequest.UserId], cancellationToken)
             ?? throw new UserNotFoundException();
 
-        if(_encryptionProvider.Verify(foundUser.Password, req.NewPassword))
+        var trimmedNewPassword = req.NewPassword.Trim();
+
+        if(_encryptionProvider.Verify(foundUser.Password, trimmedNewPassword))
         {
             throw new InvalidNewPasswordException();
         }
 
-        foundUser.Password = _encryptionProvider.Hash(req.NewPassword);
+        foundUser.Password = _encryptionProvider.Hash(trimmedNewPassword);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

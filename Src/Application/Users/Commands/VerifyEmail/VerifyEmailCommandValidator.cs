@@ -6,6 +6,6 @@ public class VerifyEmailCommandValidator : AbstractValidator<VerifyEmailCommand>
 {
     public VerifyEmailCommandValidator()
     {
-        RuleFor(v => v.Code).Length(6);
+        RuleFor(v => v.Code.Trim()).Length(6);
     }
 }
