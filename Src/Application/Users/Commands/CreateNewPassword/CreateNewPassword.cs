@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions.NewPasswordRequests;
 using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Users.Commands.CreateNewPassword;

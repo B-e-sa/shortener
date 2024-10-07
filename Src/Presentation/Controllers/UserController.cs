@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Shortener.Application.EmailVerifications.Queries.FindVerificationByUserId;
 using Shortener.Application.Users.Commands.AuthenticateToken;
 using Shortener.Application.Users.Commands.CreateEmailVerification;
 using Shortener.Application.Users.Commands.CreateNewPassword;
@@ -12,6 +11,7 @@ using Shortener.Application.Users.Commands.Login;
 using Shortener.Application.Users.Commands.Register;
 using Shortener.Application.Users.Commands.VerifyEmail;
 using Shortener.Application.Users.Queries.FindUserById;
+using Shortener.Application.Users.Queries.FindVerificationByUserId;
 using Shortener.Presentation.Common;
 
 namespace Shortener.Presentation.Controllers;

@@ -1,16 +1,15 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
-using Shortener.Domain.Common.Exceptions.EmailVerifications;
 using Shortener.Domain.Common.Exceptions.Users;
 
-namespace Shortener.Application.EmailVerifications.Queries.FindVerificationByUserId;
+namespace Shortener.Application.Users.Queries.FindVerificationByUserId;
 
 public sealed record FindVerificationByUserIdQuery(string Token) : IRequest<EmailVerification>;
 
 internal sealed class FindVerificationByUserIdQueryHandler(
     IAppDbContext context,
-    ITokenService tokenService) 
+    ITokenService tokenService)
     : IRequestHandler<FindVerificationByUserIdQuery, EmailVerification>
 {
     readonly IAppDbContext _context = context;

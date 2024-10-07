@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions.Users;
 
 namespace Shortener.Application.Users.Commands.CreateEmailVerification;
 
@@ -17,6 +18,11 @@ public class CreateEmailVerificationCommandHandler(
         CancellationToken cancellationToken)
     {
         var foundUser = await _tokenService.GetUser(req.Token, cancellationToken);
+
+        if (foundUser.ConfirmedEmail)
+        {
+            throw new UserEmailAlreadyVerifiedException();
+        }
 
         var olderVerifications = _context
             .EmailVerifications
