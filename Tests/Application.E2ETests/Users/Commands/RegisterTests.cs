@@ -75,4 +75,41 @@ public class RegisterTests(FunctionalTestWebAppFactory factory) : BaseFunctional
         // Assert
         res.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
+
+    [Fact]
+    public async Task Should_ReturnConflict_WhenUserEmailOrUsernameIsAlreadyTaken()
+    {
+        // Arrange
+        var originalUser = helper.GenerateValidUser();
+        RegisterCommand originalUserCredentials = new()
+        {
+            Email = originalUser.Email,
+            Password = originalUser.Password,
+            Username = originalUser.Username
+        };
+
+        RegisterCommand userWithSameEmail = new()
+        {
+            Email = originalUser.Email,
+            Password = originalUser.Password,
+            Username = "Original Username"
+        };
+
+        RegisterCommand userWithSameUsername = new()
+        {
+            Email = "original@username.com",
+            Password = originalUser.Password,
+            Username = originalUser.Username
+        };
+
+        await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), originalUserCredentials);
+
+        // Act
+        var res1 = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), userWithSameEmail);
+        var res2 = await HttpClient.PostAsJsonAsync(helper.GetApiUrl(), userWithSameUsername);
+
+        // Assert
+        res1.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        res2.StatusCode.Should().Be(HttpStatusCode.Conflict);
+    }
 }

@@ -1,5 +1,8 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Shortener.Application.Common.Interfaces;
+using Shortener.Domain.Common.Exceptions.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shortener.Application.Users.Commands.Register;
 
@@ -24,10 +27,32 @@ class RegisterCommandHandler(
 
     public async Task<string> Handle(RegisterCommand req, CancellationToken cancellationToken)
     {
+        var trimmedEmail = req.Email.Trim();
+
+        var duplicatedEmail = await _context
+            .Users
+            .AnyAsync(u => u.Email == trimmedEmail, cancellationToken);
+
+        if (duplicatedEmail)
+        {
+            throw new DuplicatedUserCredentialsException("Email");
+        }
+
+        var trimmedUsername = req.Username.Trim();
+
+        var duplicatedUsername = await _context
+            .Users
+            .AnyAsync(u => u.Username == trimmedUsername, cancellationToken);
+
+        if (duplicatedUsername)
+        {
+            throw new DuplicatedUserCredentialsException("Username");
+        }
+
         User user = new() 
         {
-            Email = req.Email.Trim(),
-            Username = req.Username.Trim(),
+            Email = trimmedEmail,
+            Username = trimmedUsername,
             Password = _encryption.Hash(req.Password.Trim()),
         };
 
