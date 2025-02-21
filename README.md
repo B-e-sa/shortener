@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Shortener URL shortening application API.
+URL shortening API. Includes a system for creating URLs as a guest, account creation for monitoring and deleting created URLs, and email notification sending
 
 ## Architecture
 
@@ -40,7 +40,7 @@ dotnet run
 
 ## Introdução
 
-API da aplicação de encurtamento de URL, Shortener
+API de encurtamento de URLs. Conta com sistema de criação de URLs como guest, criação de contas para monitoramento e deleção das URLs criadas e envio de email de notificação
 
 ## Arquitetura
 
